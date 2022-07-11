@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { addAcountDetails, getallAccountDetails, updateAccountDetails, deleteAccountDetails } = require('../Controller/accountController');
+const { addAcountDetails, getallAccountDetails, updateAccountDetails, deleteAccountDetails , getallAccountByID} = require('../Controller/accountController');
 const { addInvoice, getallInvoiceDetails, updateInvoiceDetails } = require('../Controller/invoiceController');
 const { addproductDetails, getallProductDetails, updateProductDetails, deleteProductDetails } = require('../Controller/productContoller');
 const { addBagageDetails, getallBagageDetails, updateBagageDetails, deleteBagageDetails } = require('../Controller/bagageController');
@@ -12,6 +12,7 @@ const {  addreciptDetails,getallReciptDetails, } = require('../Controller/recipt
 //Account detail api post
 router.post('/account/post', addAcountDetails);
 router.get('/account/get', getallAccountDetails);
+router.get('/account/get/:id', getallAccountByID);
 router.put('/account/update/:id', updateAccountDetails);
 router.delete('/account/delete/:id', deleteAccountDetails);
 
