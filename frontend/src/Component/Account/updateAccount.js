@@ -5,13 +5,15 @@ import AccountCSS from './account.module.css';
 import { Form, Button, Table, Row, Col, Container } from "react-bootstrap";
 import axios from 'axios';
 import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 import ScrollableFeed from 'react-scrollable-feed';
 import validator from 'validator'
 import TableScrollbar from 'react-table-scrollbar';
 import { MDBDataTable } from 'mdbreact';
+import Swal from 'sweetalert2'
 
 
-class createAccount extends Component {
+class updateAccount extends Component {
 
     constructor(props) {
 
@@ -19,6 +21,7 @@ class createAccount extends Component {
 
         this.state = {
 
+            AccountID: this.props.match.params.id,
             allAcounts: [],
             holderName: '',
             phoneNumber: '',
@@ -30,7 +33,8 @@ class createAccount extends Component {
             comAddressNum: '',
             type: true,
             holdertype: true,
-            data: []
+            data: [],
+            AccountDtails: ''
 
 
         }
@@ -50,7 +54,44 @@ class createAccount extends Component {
         this.formData = createRef();
         this.postAccountData = this.postAccountData.bind(this);
         this.editAccountBtn = this.editAccountBtn.bind(this);
+        this.getAccountByID = this.getAccountByID.bind(this);
+        this.AccountDeleteHandle = this.AccountDeleteHandle.bind(this);
 
+    }
+
+    AccountDeleteHandle(){
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+          
+          }).then((result) => {
+            if (result.isConfirmed) {
+
+                const url = `http://localhost:8000/api/account/delete/${this.state.AccountID}`;
+                axios.delete(url).then((res) => {
+        
+                    if(res.status == '200'){
+                        this.getAccountDetails();
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                          )
+                    }
+                    
+                })
+        
+            
+            }
+          })
+
+       
     }
 
     changCompanyName = (event) => {
@@ -126,42 +167,36 @@ class createAccount extends Component {
 
     postAccountData(data) {
 
-        const url = 'http://localhost:8000/api/account/post';
-
-        axios.post(url, data).then((res) => {
+        const url = `http://localhost:8000/api/account/update/${this.state.AccountID}`;
+        axios.put(url, data).then((res) => {
             console.log("response", res.data)
+            if(res.data){
+                this.getAccountDetails();
+            }
         })
+
+        window.location.reload(false);
 
 
 
     }
 
-    editAccountBtn(id) {
+    editAccountBtn(data) {
 
-        this.props.history.push(`/edit_Account/${id}`);
-       
-        console.log("inside edit",id)
+
+
+
+        this.props.history.push(`/edit_Account/${data}`);
+        window.location.reload(false);
+        this.getAccountByID();
+
+        console.log("inside edit", data)
     }
 
 
     add = (event) => {
 
         event.preventDefault();
-
-        this.setState({
-
-            holderName: '',
-            phoneNumber: '',
-            companyName: '',
-            companyEmailAddress: '',
-            companyPhoneNumber: '',
-            comAddressCity: '',
-            comAddressStreet: '',
-            comAddressNum: '',
-
-        })
-
-        window.location.reload(false);
 
         const companyAddress = this.formData.current.comAddressNum.value + "/" + this.formData.current.comAddressStreet.value + "/" + this.formData.current.comAddressCity.value;
 
@@ -255,7 +290,7 @@ class createAccount extends Component {
                         name: el.CompanyName,
                         position: el.CompanyPhonenumber,
                         office: el.CompanyEmailAddress,
-                        age: <FaEdit onClick={()=> this.editAccountBtn(el._id)} />
+                        age: <FaEdit onClick={() => this.editAccountBtn(el._id)} />
 
 
                     })
@@ -282,7 +317,7 @@ class createAccount extends Component {
                                 field: 'office',
                                 sort: 'asc',
                                 width: 150,
-                               
+
                             },
                             {
                                 label: 'ACTIONS',
@@ -299,9 +334,46 @@ class createAccount extends Component {
         })
     }
 
+    getAccountByID() {
+
+        console.log("this id", this.state.AccountID)
+
+        const url = `http://localhost:8000/api/account/get/${this.state.AccountID}`;
+
+        axios.get(url).then((res) => {
+
+            console.log("res data", res.data.data)
+            if (res.data.data) {
+                const addresArrey = res.data.data.CompanyAddress;
+                const newArrey = addresArrey.split("/");
+
+
+                this.setState({
+
+                    companyName: res.data.data.CompanyName,
+                    companyEmailAddress: res.data.data.CompanyEmailAddress,
+                    holderName: res.data.data.HolderName,
+                    phoneNumber: res.data.data.HolPhonenumber,
+                    companyPhoneNumber: res.data.data.CompanyPhonenumber,
+                    AccountDtails: res.data.data,
+                    comAddressCity: newArrey[2],
+                    comAddressStreet: newArrey[1],
+                    comAddressNum: newArrey[0]
+                });
+            }
+
+
+
+
+        })
+
+    }
+
     componentDidMount() {
 
         this.getAccountDetails();
+
+        this.getAccountByID();
 
 
 
@@ -454,8 +526,8 @@ class createAccount extends Component {
                                                 <Col>
 
 
-                                                    <Button variant="primary" type="submit" style={{ "marginTop": "20px" }}>
-                                                        Submit
+                                                    <Button variant="primary" type="submit" style={{ "marginTop": "20px","width":"110px" }}>
+                                                        Update
                                                     </Button>
 
                                                 </Col>
@@ -463,17 +535,22 @@ class createAccount extends Component {
                                                 <Col>
 
 
-                                                    <Button variant="primary" type="submit" style={{ "marginTop": "20px", "float": "left" }}>
+                                                    <Button variant="primary" type="submit" style={{ "marginTop": "20px","width":"110px" }}>
                                                         Product
                                                     </Button>
 
 
                                                 </Col>
-
+                                                
+                                           
                                                 <Col></Col>
                                                 <Col></Col>
                                                 <Col></Col>
                                                 <Col></Col>
+                                                <Col>
+                                                    <Button variant="primary" onClick={this.AccountDeleteHandle}  style={{ "marginTop": "20px", "float": "left" ,"width":"110px" ,"backgroundColor":"black"}}>
+                                                        <span style={{"display":"inline",}}>Delete <MdDelete/></span>
+                                                    </Button></Col>
                                             </Row>
 
 
@@ -529,7 +606,7 @@ class createAccount extends Component {
                                         loading={false}
                                         hover
                                         bordered
-                                       
+
 
 
                                         data={this.state.data}
@@ -548,4 +625,4 @@ class createAccount extends Component {
     }
 }
 
-export default createAccount;
+export default updateAccount;
