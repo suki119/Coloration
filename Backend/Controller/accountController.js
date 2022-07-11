@@ -52,6 +52,25 @@ const getallAccountDetails =  async (req,res) => {
     }
 }
 
+
+//get all acount details
+const getallAccountByID =  async (req,res) => {
+    try{
+        const id = req.params.id;
+        const AccountData = await account.findById(id);
+        return res.status(200).send({
+            data:AccountData
+        });
+
+    }catch(err){
+
+        return res.status(500).send({
+            message:err
+        })
+
+    }
+}
+
 //update details
 const updateAccountDetails =  async (req,res) => {
     try{
@@ -113,5 +132,6 @@ module.exports = {
     addAcountDetails,
     getallAccountDetails,
     updateAccountDetails,
-    deleteAccountDetails
+    deleteAccountDetails,
+    getallAccountByID
 }

@@ -2,27 +2,32 @@ const mongoose = require('mongoose');
 
 const accountSchema = new mongoose.Schema({
 
-    UserName :{
+    HolderName :{
         type: String,
         required : true,
         trim:true
     },
-    companyName :{
+    HolPhonenumber :{
         type: String,
         required : true,
         trim:true
     },
-    PhoneNumber: {
+    CompanyName: {
         type: String,
         required : true,
         trim:true
     },
-    EmailAddress: {
+    CompanyEmailAddress: {
         type: String,
         required : true,
         trim:true
     },
-    Address: {
+    CompanyPhonenumber: {
+        type: String,
+        required : true,
+        trim:true
+    },
+    CompanyAddress: {
         type: String,
         required : true,
         trim:true
