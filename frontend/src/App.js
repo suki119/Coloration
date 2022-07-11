@@ -6,7 +6,8 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-d
 
 import home from "./Component/Home/home";
 import createAccount from "./Component/Account/createAccount";
-
+import DatatablePage from "./Component/Account/DatatablePage";
+import updateAccount from "./Component/Account/updateAccount";
 
 
 function App() {
@@ -16,8 +17,10 @@ function App() {
       <Router>
         <Switch>
 
-          <Route exact path='/home' component={home} />
+          <Route exact path='/home' component={DatatablePage} />
           <Route exact path='/Accounts' component={createAccount} />
+          <Route exact path='/edit_Account/:id' component={updateAccount} />
+ 
  
 
 
