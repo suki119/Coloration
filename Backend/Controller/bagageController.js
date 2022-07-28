@@ -1,4 +1,6 @@
 const Bagage = require('../Models/bagageModel');
+const cloudinary = require('../utils/cloudinary');
+const upload = require('../helpers/fileHelper');
 
 
 
@@ -21,7 +23,7 @@ const addBagageDetails = async (req, res) => {
                 });
             }
             return res.status(200).json({
-                message: "data added succsesfull"
+                message: "data added succsesfull", data: newData
             });
         });
 
@@ -33,6 +35,36 @@ const addBagageDetails = async (req, res) => {
 
     }
 }
+
+//delete Account
+// const addBagageDetails = async (req, res) => {
+//     try {
+
+//         let newData = new Bagage(req.body);
+
+//         newData.save().then((err, object) => {
+
+
+//             if (err) {
+//                 return res.status(400).json({
+//                     message: "delete unsuccessful", object
+//                 });
+//             }
+//             return res.status(200).json({
+//                 success: "Submission removed successful", object
+//             });
+//         });
+
+//     } catch (err) {
+//         return res.status(500).send({
+//             message: err
+//         })
+
+//     }
+
+// };
+
+
 
 
 //get all acount details
@@ -85,6 +117,17 @@ const updateBagageDetails = async (req, res) => {
 const deleteBagageDetails = async (req, res) => {
     try {
 
+        const id = req.params.id;
+        const baggageData = await Bagage.findById(id);
+        console.log(baggageData)
+        // Delete image from cloudinary
+        baggageData.CloudinaryImg.map(obj => 
+
+             cloudinary.uploader.destroy(obj.cloudinary_id)
+            
+            )
+       
+
         Bagage.findByIdAndRemove(req.params.id).exec((err, deletedBagage) => {
 
 
@@ -109,9 +152,32 @@ const deleteBagageDetails = async (req, res) => {
 
 
 
+const addImgForBaggage = async (req, res) => {
+
+
+    try {
+
+        console.log("req...", req.file)
+        const result = await cloudinary.uploader.upload(req.file.path);
+
+        return res.status(200).json({
+            message: "Image Uploaded sucsesful", result
+        });
+
+
+
+    } catch (err) {
+
+    }
+
+}
+
+
+
 module.exports = {
     addBagageDetails,
     getallBagageDetails,
     updateBagageDetails,
-    deleteBagageDetails
+    deleteBagageDetails,
+    addImgForBaggage
 }

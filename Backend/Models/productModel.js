@@ -7,6 +7,11 @@ const productSchema = new mongoose.Schema({
         required : true,
         trim:true
     },
+    accountName :{
+        type: String,
+        required : true,
+        trim:true
+    },
     productName :{
         type: String,
         required : true,
@@ -19,7 +24,7 @@ const productSchema = new mongoose.Schema({
     },
     productDetails: {
         type: String,
-        required : true,
+        required : false,
         trim:true
     },
     productDiscription: {
@@ -32,6 +37,30 @@ const productSchema = new mongoose.Schema({
         required : true,
         trim:true
     },
+    bagageData: [
+        {
+            bagageID: {
+                type: String,
+                required: false,
+                trim: true
+            },
+            serialNumber: {
+                type: String,
+                required: false,
+                trim: true
+            },
+            type: {
+                type: String,
+                required: false,
+                trim: true
+            },
+            status: {
+                type: String,
+                required: false,
+                trim: true
+            }
+        }]
+    
    
 
 },{timestamps:true});

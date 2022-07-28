@@ -109,6 +109,8 @@ const deleteProductDetails = async (req, res) => {
 
 
 
+
+
 module.exports = {
     addproductDetails,
     getallProductDetails,

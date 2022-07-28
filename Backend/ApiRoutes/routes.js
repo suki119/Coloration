@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const upload = require("../helpers/fileHelper");
 
 const { addAcountDetails, getallAccountDetails, updateAccountDetails, deleteAccountDetails , getallAccountByID} = require('../Controller/accountController');
 const { addInvoice, getallInvoiceDetails, updateInvoiceDetails } = require('../Controller/invoiceController');
 const { addproductDetails, getallProductDetails, updateProductDetails, deleteProductDetails } = require('../Controller/productContoller');
-const { addBagageDetails, getallBagageDetails, updateBagageDetails, deleteBagageDetails } = require('../Controller/bagageController');
+const { addBagageDetails, getallBagageDetails, updateBagageDetails, deleteBagageDetails ,addImgForBaggage } = require('../Controller/bagageController');
 const { addJobetails, getallJobCardDetails, updateJobDetails, deleteJobCardDetails } = require('../Controller/jobCardController');
 const {  addreciptDetails,getallReciptDetails, } = require('../Controller/reciptController');
 
@@ -28,6 +29,11 @@ router.post('/product/post', addproductDetails);
 router.get('/product/get', getallProductDetails);
 router.put('/product/update/:id', updateProductDetails);
 router.delete('/product/delete/:id', deleteProductDetails);
+
+
+//product detail api post
+router.post('/product/bagageImg/post',upload.single("image"), addImgForBaggage);
+
 
 //Bagage detail api post
 router.post('/bagage/post', addBagageDetails);
