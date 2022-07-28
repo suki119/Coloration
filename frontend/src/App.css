@@ -13,6 +13,9 @@ body {
 .main-wrapper {
   height: 100vh;
   background-color: #e7e9eb;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 /* .app-header {
@@ -53,6 +56,9 @@ body {
 .body-wrapper {
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+  min-height: 100vh;
+  background-color:#e7e9eb ;
 }
 
 .app-sidebar {
@@ -60,8 +66,9 @@ body {
 }
 
 .app-content {
-  padding: 1rem;
-  overflow-y: hidden;
+  flex-basis: 75%;
+  width: 100%;
+  height: 100%;
 }
 
 .sidebarList {
@@ -109,6 +116,7 @@ body {
 
 .header {
   display: block;
+  z-index:9999
 }
 
 .header img {
@@ -130,6 +138,8 @@ body {
   width: 100vw;
   height: 3.5rem;
   position: fixed;
+
+  z-index:9999
 }
 
 .app-header button {

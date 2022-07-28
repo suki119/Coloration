@@ -50,6 +50,7 @@ class createAccount extends Component {
         this.formData = createRef();
         this.postAccountData = this.postAccountData.bind(this);
         this.editAccountBtn = this.editAccountBtn.bind(this);
+        this.toProduct = this.toProduct.bind(this);
 
     }
 
@@ -133,6 +134,12 @@ class createAccount extends Component {
         })
 
 
+
+    }
+
+    toProduct(){
+
+        this.props.history.push('/products');
 
     }
 
@@ -463,7 +470,7 @@ class createAccount extends Component {
                                                 <Col>
 
 
-                                                    <Button variant="primary" type="submit" style={{ "marginTop": "20px", "float": "left" }}>
+                                                    <Button variant="primary" onClick={this.toProduct} type="submit" style={{ "marginTop": "20px", "float": "left" }}>
                                                         Product
                                                     </Button>
 
