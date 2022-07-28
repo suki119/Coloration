@@ -56,6 +56,13 @@ class updateAccount extends Component {
         this.editAccountBtn = this.editAccountBtn.bind(this);
         this.getAccountByID = this.getAccountByID.bind(this);
         this.AccountDeleteHandle = this.AccountDeleteHandle.bind(this);
+        this.toProduct = this.toProduct.bind(this);
+
+    }
+
+    toProduct(){
+
+        this.props.history.push('/products');
 
     }
 
@@ -535,7 +542,7 @@ class updateAccount extends Component {
                                                 <Col>
 
 
-                                                    <Button variant="primary" type="submit" style={{ "marginTop": "20px","width":"110px" }}>
+                                                    <Button variant="primary" onClick={this.toProduct} type="submit" style={{ "marginTop": "20px","width":"110px" }}>
                                                         Product
                                                     </Button>
 
