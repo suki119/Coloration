@@ -6,7 +6,7 @@ const { addAcountDetails, getallAccountDetails, updateAccountDetails, deleteAcco
 const { addInvoice, getallInvoiceDetails, updateInvoiceDetails } = require('../Controller/invoiceController');
 const { addAdvance, getallAdvanceDetails, updateAdvanceDetails,getaAdvanceAmountByAccAndProd } = require('../Controller/advanceControlller');
 const { addDraftInvoiceData, getallDraftInvoiceDetails, updateDraftInvoiceDetails, getDraftInvoiceByAccAndPro } = require('../Controller/draftInvoiceContoller');
-const { addproductDetails, getallProductDetails, updateProductDetails, deleteProductDetails, getProductById, getAllProductsByAccountID } = require('../Controller/productContoller');
+const { addproductDetails, getallProductDetails, updateProductDetails, deleteProductDetails, getProductById, getAllProductsByAccountID , getProductByName} = require('../Controller/productContoller');
 const { addBagageDetails, getallBagageDetails, updateBagageDetails, deleteBagageDetails, addImgForBaggage, getBaggageByAcoNameAndCompanyName } = require('../Controller/bagageController');
 const { addJobetails, getallJobCardDetails, updateJobDetails, deleteJobCardDetails } = require('../Controller/jobCardController');
 const { addreciptDetails, getallReciptDetails, } = require('../Controller/reciptController');
@@ -60,6 +60,7 @@ router.put('/product/update/:id', updateProductDetails);
 router.delete('/product/delete/:id', deleteProductDetails);
 router.post('/product/getProductById', getProductById);
 router.post('/product/getAllProductsByAccountID', getAllProductsByAccountID);
+router.post('/product/getProductByName', getProductByName);
 
 
 //product detail api post
