@@ -138,11 +138,12 @@ const getProductByName = async (req, res) => {
     try {
 
         const { productName } = req.body;
-        const data = await Product.find({ productName: productName });
+        const data = await Product.findOne({ productName: productName });
         if (data) {
 
             return res.status(200).json({
-                message: "data found", data
+                message: "data found", data,
+                status : 2100
             });
         }else{
             

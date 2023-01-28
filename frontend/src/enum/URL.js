@@ -22,6 +22,7 @@ export const webAPI = {
   addProductData: 'api/product/addProductData',
   changeProductStatus: 'api/product/update/',
   getAllProductsByAccountID: 'api/product/getAllProductsByAccountID',
+  getProductByName: 'api/product/getProductByName',
 
 
   /************************ bagage API *********************************/
