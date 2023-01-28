@@ -1,90 +1,36 @@
 .container{
     /* min-width: 800px; */
-     /* min-height: 90vh; */
+     min-height: 85vh;
      background-color: white;
      /* display: fixed; */
      align-items: center;
      justify-content: center;
-     margin-top: 69px;
-     width: 1650px;
-     height:270px;
+     margin-top: 80px;
+     width: 680px;
     
      /* margin-left: 200px; */
  }
  /* <div className='containerA' style={{ "backgroundColor": "rgb(210 220 228)", "minWidth": "450px", "position": "absolute", "marginLeft": "830px", "height": "550px", "float": "right", "minHeight": "80vh", "borderRadius": "10px" }}> */
  .containertwo{
      /* min-width: 800px; */
-      min-height: 90vh;
+      min-height: 85vh;
       background-color: white;
       /* display: fixed; */
       align-items: center;
       justify-content: center;
       margin-top: 80px;
-      width: 860px;
+      width: 1000px;
     
       position: absolute;
       float: right;
-      margin-left: 820px;
-   
+      margin-left: 700px;
       padding-right: 20px;
-      
   }
-
-  .tableContainertwo {
-
-    background-color: rgb(255, 255, 255);
-    /* display: fixed; */
-
-
-    box-shadow: 0px 3px 2px 0px #dbd6d6;
-    height: fit-content;
-
-
-
-    width: 1610px;
-    margin-top: 490px;
-    margin-left: -1610px;
-    margin-bottom: 25px;
-
-}
-
-
-  .container3{
-    /* min-width: 800px; */
-     /* min-height: 20vh; */
-     background-color: white;
-     /* display: fixed; */
-     align-items: center;
-     justify-content: center;
-    
-     width: 1650px;
-     margin-top: 10px;
-   
-    
-     /* margin-left: 200px; */
- }
-
- 
- .container4{
-  /* min-width: 800px; */
-   min-height: 20vh;
-   background-color: white;
-   /* display: fixed; */
-   align-items: center;
-   justify-content: center;
-  
-   width: 1650px;
-   margin-top: 10px;
-   margin-bottom: 15px;
-  
-   /* margin-left: 200px; */
-}
  
  .form{
      margin-left: 40px;
-     margin-right: 50px;
-     padding-right: 0px;
-     z-index: 1;
+     margin-right: 20px;
+     padding-right: 10px;
  }
  
  .yourcustomstyles table thead {
@@ -102,6 +48,26 @@
  }
  
  
+ 
+   .loadercontainer {
+ 
+ 
+   position: fixed;
+   height: 100%;
+   width: 100%;
+   top: 0;
+   left: 0;
+   opacity: 1;
+   background-color: rgba(0, 0, 0, 0.54);
+   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+   will-change: opacity;
+   transform: translateZ(0px);
+   transition: left 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, opacity 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+   z-index: 1000;
+   /* //z-index: 1400; */
+ 
+ }
+   
  
  
  

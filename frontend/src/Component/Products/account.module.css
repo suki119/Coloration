@@ -1,6 +1,6 @@
 .container{
     /* min-width: 800px; */
-     min-height: 85vh;
+     min-height: 90vh;
      background-color: white;
      /* display: fixed; */
      align-items: center;
@@ -13,7 +13,7 @@
  /* <div className='containerA' style={{ "backgroundColor": "rgb(210 220 228)", "minWidth": "450px", "position": "absolute", "marginLeft": "830px", "height": "550px", "float": "right", "minHeight": "80vh", "borderRadius": "10px" }}> */
  .containertwo{
      /* min-width: 800px; */
-      min-height: 85vh;
+      min-height: 90vh;
       background-color: white;
       /* display: fixed; */
       align-items: center;
@@ -31,7 +31,7 @@
 
   .container3{
     /* min-width: 800px; */
-     min-height: 85vh;
+     min-height: 100vh;
      background-color: white;
      /* display: fixed; */
      align-items: center;

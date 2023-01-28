@@ -1,12 +1,10 @@
-const Invoice = require('../Models/invoiceModel');
-
-
+const draftInvoice = require('../Models/draftInvoiceModel');
 
 
 //adding account details
-const addInvoice = async (req,res) => {
+const addDraftInvoiceData = async (req,res) => {
     
-    let newData = new Invoice(req.body);
+    let newData = new draftInvoice(req.body);
 
    
 //    const { ProductName ,Address , EmailAddress , PhoneNumber ,UserName } = req.body;
@@ -23,8 +21,7 @@ const addInvoice = async (req,res) => {
             }
             return res.status(200).json({
                 message:"data added succsesfull",
-                status:2100,
-                newData
+                status:2100
             });
         });
 
@@ -40,11 +37,10 @@ const addInvoice = async (req,res) => {
 
 
 
-
 //get all invoice details
-const getallInvoiceDetails =  async (req,res) => {
+const getallDraftInvoiceDetails =  async (req,res) => {
     try{
-        const InvoiceData = await Invoice.find();
+        const InvoiceData = await draftInvoice.find();
         return res.status(200).send({
             data:InvoiceData,
             status:2100
@@ -60,12 +56,12 @@ const getallInvoiceDetails =  async (req,res) => {
 }
 
 //update details
-const updateInvoiceDetails =  async (req,res) => {
+const updateDraftInvoiceDetails =  async (req,res) => {
     try{
 
         
         const id = req.params.id;
-        Invoice.findByIdAndUpdate(id,{
+        draftInvoice.findByIdAndUpdate(id,{
             $set : req.body
         },(err) => {
             if(err){
@@ -85,6 +81,33 @@ const updateInvoiceDetails =  async (req,res) => {
             message:err
         })
 
+    }
+}
+
+//draft find by Account Name , Product
+const getDraftInvoiceByAccAndPro = async (req, res) => {
+    try {
+
+        const { accountID } = req.body;
+        const data = await draftInvoice.findOne({ accountID: accountID });
+        if (data) {
+
+            return res.status(200).json({
+                message: "data found", data,
+                status:2100
+            });
+        }else{
+            
+            return res.status(200).json({
+                message: "No Data found", data
+            });
+        }
+
+    } catch(err) {
+
+        return res.status(400).json({
+            message:err
+        });
     }
 }
 
@@ -115,12 +138,9 @@ const updateInvoiceDetails =  async (req,res) => {
 // };
 
 
-
 module.exports = {
-    addInvoice,
-    getallInvoiceDetails,
-    updateInvoiceDetails,
-
-   
-   
+    addDraftInvoiceData,
+    getallDraftInvoiceDetails,
+    updateDraftInvoiceDetails,
+    getDraftInvoiceByAccAndPro
 }
