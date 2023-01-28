@@ -21,18 +21,20 @@ import { BsXLg } from "react-icons/bs";
 import img from '../Images/No-Image-Placeholder.svg.png'
 import logo from '../Images/default.jpg'
 import JoditEditor from "jodit-react";
-import AddProductUI from './AddProductUI';
-import { appURLs , webAPI } from '../../enum/URL'
+import UpdateProductUI from './UpdateProductUI';
+import { appURLs, webAPI } from '../../enum/URL'
 
 
 
-class AddProduct extends Component {
+class UpdateProduct extends Component {
 
     constructor(props) {
 
         super(props)
 
         this.state = {
+
+            AccountID: this.props.match.params.id,
 
             allAcounts: [],
             productName: '',
@@ -59,9 +61,12 @@ class AddProduct extends Component {
             baggageResData: [],
             slideImages: [],
             bagageData: [],
+            productData: '',
+            baggage:[],
+
 
             buttons: ["bold", "italic", "link", "unlink", "underline", "source"],
-            loader:false
+            loader: false
 
 
 
@@ -71,34 +76,123 @@ class AddProduct extends Component {
 
         this.functions = {
 
-            getAccountDetails : this.getAccountDetails.bind(this),
-            handleSearchArea : this.handleSearchArea.bind(this),
-            filterData : this.filterData.bind(this),
-            changCompanyName : this.changCompanyName.bind(this),
-            changProductName : this.changProductName.bind(this),
-            changCategory : this.changCategory.bind(this),
-            changlength : this.changlength.bind(this),
-            changproductDiscription : this.changproductDiscription.bind(this),
-            changBagageID : this.changBagageID.bind(this),
-            changeBagageType : this.changeBagageType.bind(this),
-            changSerailNumber : this.changSerailNumber.bind(this),
-            add : this.add.bind(this),
-            formData : createRef(),
-            postAccountData : this.postAccountData.bind(this),
-            editAccountBtn : this.editAccountBtn.bind(this),
-            toProduct : this.toProduct.bind(this),
-            changeFilePath : this.changeFilePath.bind(this),
-            addBagageData : this.addBagageData.bind(this),
-            generateBaggageNumber : this.generateBaggageNumber.bind(this),
-            getallBaggage : this.getallBaggage.bind(this),
-            getAllProducts : this.getAllProducts.bind(this),
-            addBaggage : this.addBaggage.bind(this),
-            cancelBaggage : this.cancelBaggage.bind(this),
+            getAccountDetails: this.getAccountDetails.bind(this),
+            handleSearchArea: this.handleSearchArea.bind(this),
+            filterData: this.filterData.bind(this),
+            changCompanyName: this.changCompanyName.bind(this),
+            changProductName: this.changProductName.bind(this),
+            changCategory: this.changCategory.bind(this),
+            changlength: this.changlength.bind(this),
+            changproductDiscription: this.changproductDiscription.bind(this),
+            changBagageID: this.changBagageID.bind(this),
+            changeBagageType: this.changeBagageType.bind(this),
+            changSerailNumber: this.changSerailNumber.bind(this),
+            add: this.add.bind(this),
+            formData: createRef(),
+            postAccountData: this.postAccountData.bind(this),
+          
+            toProduct: this.toProduct.bind(this),
+            changeFilePath: this.changeFilePath.bind(this),
+            addBagageData: this.addBagageData.bind(this),
+            generateBaggageNumber: this.generateBaggageNumber.bind(this),
+            getallBaggage: this.getallBaggage.bind(this),
+            getAllProducts: this.getAllProducts.bind(this),
+            addBaggage: this.addBaggage.bind(this),
+            cancelBaggage: this.cancelBaggage.bind(this),
+            getProductById: this.getProductById.bind(this),
+            
 
 
         }
 
-      
+        this.editAccountBtn = this.editAccountBtn.bind(this)
+
+    }
+
+
+
+    getProductById() {
+
+        this.setState({ loader: true });
+        const data = {
+            id: this.state.AccountID
+        }
+
+        axios.post(appURLs.web + webAPI.getProductById, data).then((res) => {
+
+            if (res.status == 200) {
+                if (res.data.data) {
+
+
+
+                    const data = {
+                        "companyName": res.data.data.accountName,
+                        "productName": res.data.data.productName
+                    }
+
+                    axios.post(appURLs.web + webAPI.findByComAndAcc, data).then((res) => {
+
+                        console.log("esde", res.data)
+                        this.setState({
+                            baggageResData: res.data.data,
+                            baggage:res.data.data
+                        }, () => {
+
+                            this.setState({ loader: false });
+
+                        })
+                    })
+
+                    console.log("dateees", res.data.data.createdAt)
+                    const date = res.data.data.createdAt
+
+
+
+
+                    const createdDate = date.substr(0, 10);
+
+
+
+                    this.setState({
+                        productData: res.data.data,
+                        createdDate: createdDate
+
+                    }, () => {
+
+                        let productStatusDes;
+                        productStatusDes = this.state.productData.productStatus == 'Y' ? 'Completed' : 'Pennding';
+                        this.setState({
+                            productStatusDes: productStatusDes,
+
+                            productName: this.state.productData.productName,
+                            category: this.state.productData.productCategory,
+                            length: this.state.productData.productDetails,
+                            productDiscription: this.state.productData.productDiscription
+
+                        })
+
+                        // this.handleStatusStatus();
+                    })
+                } else {
+                    alert("no product with that")
+                }
+            } else {
+                alert("technical error");
+            }
+        }).catch((error) => {
+            console.error('Error', error);
+            this.setState({ loader: false });
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: 'Network Error',
+                showConfirmButton: false,
+                timer: 1500
+            })
+
+
+        })
+
     }
 
 
@@ -107,7 +201,7 @@ class AddProduct extends Component {
 
         if (event) {
 
-            
+
 
             axios.delete(appURLs.web + webAPI.deleteProduct + event).then((res) => {
 
@@ -145,7 +239,7 @@ class AddProduct extends Component {
             img
         }, () => {
 
-          
+
 
         })
 
@@ -252,8 +346,7 @@ class AddProduct extends Component {
 
 
 
-        if (this.state.productName && this.state.BagageType && this.state.SerailNumber &&
-            this.state.selectedOptions.label) {
+        if (this.state.BagageType && this.state.SerailNumber) {
 
 
         } else {
@@ -288,8 +381,8 @@ class AddProduct extends Component {
             Img:
                 this.state.img,
             serialNumber: this.state.SerailNumber,
-            accountID: this.state.selectedOptions,
-            accountName: this.state.selectedOptions.label
+            accountID: this.state.productData.accountID,
+            accountName: this.state.productData.accountName
 
         }
 
@@ -323,13 +416,14 @@ class AddProduct extends Component {
                 bagageID: this.state.BagageID,
 
                 serialNumber: serialNumber,
-                accountID: this.state.selectedOptions,
-                accountName: this.state.selectedOptions.label
+                accountID: this.state.productData.accountID,
+                accountName: this.state.productData.accountName
             };
 
-            this.setState({ loader: true });
 
             const url = 'http://localhost:8000/api/bagage/post';
+
+
 
             axios.post(appURLs.web + webAPI.addBagageData, baggageDatas).then((res) => {
 
@@ -347,9 +441,7 @@ class AddProduct extends Component {
                         baggageResData,
                         addButton: false,
                         submitButton: false,
-                        BagageID: '',
-                        loader: false 
-
+                        BagageID: ''
                     }, () => {
                         this.generateBaggageNumber();
                         console.log("res baggage", this.state.baggageResData);
@@ -396,10 +488,10 @@ class AddProduct extends Component {
 
 
 
-            this.setState({ loader: true });
+
 
             const url = 'http://localhost:8000/api/product/bagageImg/post';
-            const res = axios.post(appURLs.web + webAPI.uploadBaggageImg , formData);
+            const res = axios.post(appURLs.web + webAPI.uploadBaggageImg, formData);
 
 
             let promises = [res];
@@ -421,7 +513,9 @@ class AddProduct extends Component {
 
 
 
-                    this.setState({ loader: false });
+                    console.log("CloudinaryImg res index", index + " /" + CloudinaryImg);
+                    console.log("max", max)
+                    console.log("index", num)
 
                     if (max == num) {
 
@@ -440,15 +534,14 @@ class AddProduct extends Component {
                             bagageID: this.state.BagageID,
 
                             serialNumber: serialNumber,
-                            accountID: this.state.selectedOptions,
-                            accountName: this.state.selectedOptions.label
+                            accountID: this.state.productData.accountID,
+                            accountName: this.state.productData.accountName
                         };
 
                         this.setState({
                             CloudinaryImg: []
                         });
 
-                        this.setState({ loader: true });
                         const url = 'http://localhost:8000/api/bagage/post';
 
                         axios.post(appURLs.web + webAPI.addBagageData, baggageDatas).then((res) => {
@@ -467,7 +560,7 @@ class AddProduct extends Component {
                                 }, () => {
                                     console.log("res baggage", this.state.baggageResData);
 
-                                    this.setState({ loader: false });
+
 
 
 
@@ -533,27 +626,27 @@ class AddProduct extends Component {
 
         )
 
-        if (!this.state.category) {
-            Swal.fire({
+        // if (!this.state.category) {
+        //     Swal.fire({
 
-                icon: 'warning',
-                title: 'Some Fields are empty',
-                showConfirmButton: false,
-                timer: 1500
-            })
-            return -1
-        }
+        //         icon: 'warning',
+        //         title: 'Some Fields are empty',
+        //         showConfirmButton: false,
+        //         timer: 1500
+        //     })
+        //     return -1
+        // }
 
         const product = {
 
-            productStatus: 'N',
+            // productStatus: 'N',
             productDiscription: this.state.productDiscription,
             productDetails: this.state.length,
 
             productCategory: this.state.category,
-            productName: this.state.productName,
-            accountID: this.state.selectedOptions.value,
-            accountName: this.state.selectedOptions.label,
+            // productName: this.state.productName,
+            // accountID: this.state.selectedOptions.value,
+            // accountName: this.state.selectedOptions.label,
             bagageData: bagageData
 
 
@@ -561,27 +654,20 @@ class AddProduct extends Component {
 
         this.setState({ loader: true });
 
-        axios.post(appURLs.web + webAPI.addProductData , product).then((res) => {
+
+        axios.put(appURLs.web + webAPI.changeProductStatus + this.state.AccountID, product).then((res) => {
 
             if (res.status == 200) {
 
 
-                this.setState({
-                    productName: '',
-                    category: '',
-                    companyName: '',
-                    length: '',
-                    productDiscription: '',
-                    allproducts: [],
-                    baggageResData: []
-                }, () => {
+      
                     this.getallBaggage();
-                })
+               
             }
 
 
         }).catch((error) => {
-            console.error('Error',error);
+            console.error('Error', error);
             this.setState({ loader: false });
             Swal.fire({
                 position: 'top-end',
@@ -589,8 +675,8 @@ class AddProduct extends Component {
                 title: 'Network Error',
                 showConfirmButton: false,
                 timer: 1500
-              })
-         
+            })
+
 
         })
 
@@ -678,14 +764,13 @@ class AddProduct extends Component {
     handleSearchArea = (event) => {
 
         const searchKey = event.currentTarget.value;
-        this.setState({ loader: true });
+
         const url = 'http://localhost:8000/api/account/get';
 
         axios.get(appURLs.web + webAPI.getAccountData).then((res) => {
 
             if (res.data) {
                 this.filterData(res.data.data, searchKey);
-                this.setState({ loader: false });
             }
 
         }
@@ -706,7 +791,7 @@ class AddProduct extends Component {
                 this.setState({ loader: false });
             })
         }).catch((error) => {
-            console.error('Error',error);
+            console.error('Error', error);
             this.setState({ loader: false });
             Swal.fire({
                 position: 'top-end',
@@ -714,8 +799,8 @@ class AddProduct extends Component {
                 title: 'Network Error',
                 showConfirmButton: false,
                 timer: 1500
-              })
-         
+            })
+
 
         })
     }
@@ -730,13 +815,13 @@ class AddProduct extends Component {
             this.setState({
                 allproducts: res.data.data
             }, () => {
-                
 
-              
+
+
 
                 const userAttributes = []
                 this.state.allproducts.forEach(el => {
-                  
+
 
                     const data = el.productCategory == 'tvSeries' ? el.productDetails + " EP" : el.productDetails + " Min"
                     userAttributes.push({
@@ -760,7 +845,7 @@ class AddProduct extends Component {
 
                 this.setState({
 
-                    loader:false,
+                    loader: false,
 
                     data: {
                         columns: [
@@ -818,7 +903,7 @@ class AddProduct extends Component {
                 })
             })
         }).catch((error) => {
-            console.error('Error',error);
+            console.error('Error', error);
             this.setState({ loader: false });
             Swal.fire({
                 position: 'top-end',
@@ -826,8 +911,8 @@ class AddProduct extends Component {
                 title: 'Network Error',
                 showConfirmButton: false,
                 timer: 1500
-              })
-         
+            })
+
 
         })
     }
@@ -852,17 +937,17 @@ class AddProduct extends Component {
                     })
                 });
 
-               
+
                 this.setState({
 
-                    loader:false,
+                    loader: false,
                     options: dataArrey,
-                  
+
                 })
 
             })
         }).catch((error) => {
-            console.error('Error',error);
+            console.error('Error', error);
             this.setState({ loader: false });
             Swal.fire({
                 position: 'top-end',
@@ -870,8 +955,8 @@ class AddProduct extends Component {
                 title: 'Network Error',
                 showConfirmButton: false,
                 timer: 1500
-              })
-         
+            })
+
 
         });
     }
@@ -896,7 +981,7 @@ class AddProduct extends Component {
             return confirmationMessage; //Webkit, Safari, Chrome
 
         });
-     
+
 
     }
 
@@ -911,16 +996,19 @@ class AddProduct extends Component {
 
         this.getallBaggage();
 
+        this.getProductById();
+
+
 
     }
 
 
 
     render() {
-        
+
         return (
-           
-            <AddProductUI
+
+            <UpdateProductUI
 
                 {...this.props}
                 {...this.state}
@@ -931,4 +1019,4 @@ class AddProduct extends Component {
     }
 }
 
-export default AddProduct;
+export default UpdateProduct;

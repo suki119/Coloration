@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const invoiceSchema = new mongoose.Schema({
+const draftInvoiceSchema = new mongoose.Schema({
 
     invoiceNumber: {
         type: String,
@@ -38,12 +38,6 @@ const invoiceSchema = new mongoose.Schema({
         trim: true
     },
     advance : {
-        type: Number,
-        required: false,
-        trim: true
-    },
-    
-    subTotal : {
         type: Number,
         required: false,
         trim: true
@@ -94,11 +88,6 @@ const invoiceSchema = new mongoose.Schema({
             required: false,
             trim: false
         },
-        advance: {
-            type: String,
-            required: false,
-            trim: false
-        },
 
 
 
@@ -113,6 +102,6 @@ const invoiceSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 
-const invoice = mongoose.model('invoice', invoiceSchema);
+const draftInvoice = mongoose.model('draftInvoice', draftInvoiceSchema);
 
-module.exports = invoice;
+module.exports = draftInvoice;

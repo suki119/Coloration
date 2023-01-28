@@ -9,13 +9,6 @@ import { BsArrowDownCircleFill } from "react-icons/bs";
 import { BsFileEarmarkArrowUpFill } from "react-icons/bs";
 import { BsPersonCircle } from "react-icons/bs";
 
-
-
-
-
-
-
-
 export const SidebarData = [
     {
         title: "Home",
@@ -32,6 +25,11 @@ export const SidebarData = [
         title: "Products",
         icon: <BsArrowDownCircleFill />,
         Link: "/Products"
+    },
+    {
+        title: "Advance",
+        icon: <BsFileEarmarkArrowUpFill />,
+        Link: "/advance"
     },
     {
         title: "Invoice",

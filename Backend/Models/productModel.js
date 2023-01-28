@@ -38,6 +38,7 @@ const productSchema = new mongoose.Schema({
         trim:true
     },
     bagageData: [
+       
         {
             bagageID: {
                 type: String,
@@ -55,6 +56,11 @@ const productSchema = new mongoose.Schema({
                 trim: true
             },
             status: {
+                type: String,
+                required: false,
+                trim: true
+            },
+            url: {
                 type: String,
                 required: false,
                 trim: true

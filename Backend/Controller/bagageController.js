@@ -1,6 +1,8 @@
 const Bagage = require('../Models/bagageModel');
 const cloudinary = require('../utils/cloudinary');
 const upload = require('../helpers/fileHelper');
+const Product = require('../Models/productModel');
+
 
 
 
@@ -22,6 +24,10 @@ const addBagageDetails = async (req, res) => {
                     message: err
                 });
             }
+
+           
+           
+
             return res.status(200).json({
                 message: "data added succsesfull", data: newData
             });
@@ -99,7 +105,8 @@ const updateBagageDetails = async (req, res) => {
                 });
             }
             return res.status(200).json({
-                message: "updated successfully!"
+                message: "updated successfully!",
+                status:2100
             });
 
         })
@@ -121,12 +128,12 @@ const deleteBagageDetails = async (req, res) => {
         const baggageData = await Bagage.findById(id);
         console.log(baggageData)
         // Delete image from cloudinary
-        baggageData.CloudinaryImg.map(obj => 
+        baggageData.CloudinaryImg.map(obj =>
 
-             cloudinary.uploader.destroy(obj.cloudinary_id)
-            
-            )
-       
+            cloudinary.uploader.destroy(obj.cloudinary_id)
+
+        )
+
 
         Bagage.findByIdAndRemove(req.params.id).exec((err, deletedBagage) => {
 
@@ -172,6 +179,32 @@ const addImgForBaggage = async (req, res) => {
 
 }
 
+//get baggage detalis by account name and product name
+const getBaggageByAcoNameAndCompanyName = async (req, res) => {
+    try {
+
+        const { companyName, productName } = req.body;
+        const data = await Bagage.find({ accountName: companyName, productName: productName });
+        if (data) {
+
+            return res.status(200).json({
+                message: "data found", data
+            });
+        }else{
+            
+            return res.status(200).json({
+                message: "No Data found", data
+            });
+        }
+
+    } catch(err) {
+
+        return res.status(400).json({
+            message:err
+        });
+    }
+}
+
 
 
 module.exports = {
@@ -179,5 +212,6 @@ module.exports = {
     getallBagageDetails,
     updateBagageDetails,
     deleteBagageDetails,
-    addImgForBaggage
+    addImgForBaggage,
+    getBaggageByAcoNameAndCompanyName
 }

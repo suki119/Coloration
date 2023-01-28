@@ -1,12 +1,12 @@
-const Invoice = require('../Models/invoiceModel');
+const Advance = require('../Models/advanceModel');
 
 
 
 
 //adding account details
-const addInvoice = async (req,res) => {
+const addAdvance = async (req,res) => {
     
-    let newData = new Invoice(req.body);
+    let newData = new Advance(req.body);
 
    
 //    const { ProductName ,Address , EmailAddress , PhoneNumber ,UserName } = req.body;
@@ -23,8 +23,7 @@ const addInvoice = async (req,res) => {
             }
             return res.status(200).json({
                 message:"data added succsesfull",
-                status:2100,
-                newData
+                status:2100
             });
         });
 
@@ -41,12 +40,12 @@ const addInvoice = async (req,res) => {
 
 
 
-//get all invoice details
-const getallInvoiceDetails =  async (req,res) => {
+//get all Advance details
+const getallAdvanceDetails =  async (req,res) => {
     try{
-        const InvoiceData = await Invoice.find();
+        const AdvanceData = await Advance.find();
         return res.status(200).send({
-            data:InvoiceData,
+            data:AdvanceData,
             status:2100
         });
 
@@ -60,12 +59,12 @@ const getallInvoiceDetails =  async (req,res) => {
 }
 
 //update details
-const updateInvoiceDetails =  async (req,res) => {
+const updateAdvanceDetails =  async (req,res) => {
     try{
 
         
         const id = req.params.id;
-        Invoice.findByIdAndUpdate(id,{
+        Advance.findByIdAndUpdate(id,{
             $set : req.body
         },(err) => {
             if(err){
@@ -87,6 +86,36 @@ const updateInvoiceDetails =  async (req,res) => {
 
     }
 }
+
+
+//advance find by Account Name , Product
+const getaAdvanceAmountByAccAndProd = async (req, res) => {
+    try {
+
+        const { accountID , productID ,settleStatus} = req.body;
+        const data = await Advance.find({ accountID: accountID , productID : productID  });
+        if (data) {
+
+            return res.status(200).json({
+                message: "data found", data,
+                status:2100
+            });
+        }else{
+            
+            return res.status(200).json({
+                message: "No Data found", data
+            });
+        }
+
+    } catch(err) {
+
+        return res.status(400).json({
+            message:err
+        });
+    }
+}
+
+
 
 // //delete Account
 // const deleteAccountDetails = async (req, res) => {
@@ -117,9 +146,10 @@ const updateInvoiceDetails =  async (req,res) => {
 
 
 module.exports = {
-    addInvoice,
-    getallInvoiceDetails,
-    updateInvoiceDetails,
+    addAdvance,
+    getallAdvanceDetails,
+    updateAdvanceDetails,
+    getaAdvanceAmountByAccAndProd
 
    
    

@@ -21,6 +21,7 @@ const addAcountDetails = async (req,res) => {
                 });
             }
             return res.status(200).json({
+                status:'2100',
                 message:"data added succsesfull"
             });
         });
@@ -40,13 +41,15 @@ const getallAccountDetails =  async (req,res) => {
     try{
         const AccountData = await account.find();
         return res.status(200).send({
-            data:AccountData
+            data:AccountData,
+            status:2100
         });
 
     }catch(err){
 
         return res.status(500).send({
-            message:err
+            message:err,
+            
         })
 
     }
