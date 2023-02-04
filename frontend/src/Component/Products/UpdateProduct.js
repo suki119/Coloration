@@ -132,7 +132,7 @@ class UpdateProduct extends Component {
 
                     axios.post(appURLs.web + webAPI.findByComAndAcc, data).then((res) => {
 
-                        console.log("esde", res.data)
+                       
                         this.setState({
                             baggageResData: res.data.data,
                             baggage:res.data.data
@@ -143,7 +143,7 @@ class UpdateProduct extends Component {
                         })
                     })
 
-                    console.log("dateees", res.data.data.createdAt)
+                  
                     const date = res.data.data.createdAt
 
 
@@ -211,13 +211,12 @@ class UpdateProduct extends Component {
                 this.setState({
                     baggageResData
                 })
-                console.log("nnnnnnnn", index)
-                console.log(baggageResData)
+               
             })
 
         }
 
-        console.log(event)
+       
 
 
     }
@@ -232,7 +231,7 @@ class UpdateProduct extends Component {
 
 
     changeFilePath(event) {
-        console.log("img", event.target.files);
+     
         let { img } = this.state;
         img.push(event.target.files);
         this.setState({
@@ -248,7 +247,7 @@ class UpdateProduct extends Component {
     }
 
     changCompanyName = (selectedOptions) => {
-        console.log(selectedOptions)
+       
 
 
 
@@ -267,7 +266,7 @@ class UpdateProduct extends Component {
     }
 
     changCategory = (event) => {
-        console.log(event.target.value)
+        
         this.setState({
             category: event.target.value
         })
@@ -282,11 +281,9 @@ class UpdateProduct extends Component {
     }
 
     changproductDiscription(event) {
-        console.log("xxxxxxxxxxxxxxx", event)
+       
         this.setState({
             productDiscription: event
-        }, () => {
-            console.log("xxxxxxxxxxxxxxx", this.state.productDiscription)
         });
     }
 
@@ -318,7 +315,7 @@ class UpdateProduct extends Component {
         const url = 'http://localhost:8000/api/account/post';
 
         axios.post(appURLs.web + webAPI.postAccountData, data).then((res) => {
-            console.log("response", res.data)
+           
         })
 
 
@@ -399,7 +396,7 @@ class UpdateProduct extends Component {
             })
         });
 
-        console.log("nothing", this.state.img)
+        
 
 
         let max = this.state.img.length - 1;
@@ -444,7 +441,7 @@ class UpdateProduct extends Component {
                         BagageID: ''
                     }, () => {
                         this.generateBaggageNumber();
-                        console.log("res baggage", this.state.baggageResData);
+                      
 
                         this.state.baggageResData.forEach(el => {
                             const { slideImages } = this.state;
@@ -457,7 +454,7 @@ class UpdateProduct extends Component {
                             })
 
                             this.setState({ slideImages }, () => {
-                                console.log("this.state.slideImages", this.state.slideImages)
+                               
                             })
 
 
@@ -477,8 +474,8 @@ class UpdateProduct extends Component {
 
 
 
-            // console.log(" max", max)
-            // console.log("index", index)
+            // (" max", max)
+            // ("index", index)
 
 
 
@@ -497,7 +494,7 @@ class UpdateProduct extends Component {
             let promises = [res];
 
             Promise.all(promises).then((result) => {
-                console.log("result ", result[0].data.result)
+              
 
                 const { CloudinaryImg } = this.state;
 
@@ -513,13 +510,10 @@ class UpdateProduct extends Component {
 
 
 
-                    console.log("CloudinaryImg res index", index + " /" + CloudinaryImg);
-                    console.log("max", max)
-                    console.log("index", num)
 
                     if (max == num) {
 
-                        console.log("inside if")
+                    
                         const baggageDatas = {
 
 
@@ -558,7 +552,7 @@ class UpdateProduct extends Component {
                                     addButton: false,
                                     submitButton: false
                                 }, () => {
-                                    console.log("res baggage", this.state.baggageResData);
+                                   
 
 
 
@@ -575,9 +569,7 @@ class UpdateProduct extends Component {
                                             })
                                         })
 
-                                        this.setState({ slideImages }, () => {
-                                            console.log("this.state.slideImages", this.state.slideImages)
-                                        })
+                                        this.setState({ slideImages })
 
 
                                     });
@@ -719,7 +711,7 @@ class UpdateProduct extends Component {
             CompanyPhonenumber: this.state.companyPhoneNumber.value,
             CompanyAddress: companyAddress
         }
-        console.log("data", newAccont)
+       
 
         if (this.state.holderName.value && this.state.phoneNumber.value && this.state.companyName.value && this.state.companyEmailAddress.value &&
             this.state.companyPhoneNumber.value && this.state.comAddressCity.value && this.state.comAddressStreet.value && this.state.comAddressNum.value) {
@@ -964,18 +956,18 @@ class UpdateProduct extends Component {
     componentWillUnmount() {
 
         const { baggageResData } = this.state;
-        console.log("this.state.baggageResData !", baggageResData);
+      
 
 
         const data = window.addEventListener("beforeunload", function (e) {
 
 
             let confirmationMessage = "o/";
-            console.log("logout !", confirmationMessage);
+          
 
             (e || window.event).returnValue = confirmationMessage; //Gecko + IE
 
-            console.log("this.state.baggageResData !", baggageResData);
+          
             window.location.reload(true);
 
             return confirmationMessage; //Webkit, Safari, Chrome

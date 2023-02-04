@@ -104,17 +104,17 @@ class ProductView extends Component {
 
       
         const { productData } = this.state;
-        console.log(",,,,,",productData)
+       
 
 
-        console.log("allproducts 1",event.target.value)
+        
 
         let question = productData.bagageData.findIndex(i => i.serialNumber === bagageData.serialNumber);
 
         productData.bagageData[question].status = selectedStatus
 
 
-        console.log("allproducts 2",productData)
+       
 
         // bagageData['status'] = bagageData['status'] == 'Y' ? 'N' : 'Y';
 
@@ -136,7 +136,7 @@ class ProductView extends Component {
 
 
             if (res.data.status === 2100) {
-                console.log("allproducts 3",event.target.value)
+             
 
                 let reqData = {
                     'status': selectedStatus
@@ -195,7 +195,7 @@ class ProductView extends Component {
 
     changeProductStatus = (event) => {
 
-        console.log(event.target.value)
+       
 
 
         this.setState({ loader: true });
@@ -279,7 +279,7 @@ class ProductView extends Component {
 
                     axios.post(appURLs.web + webAPI.findByComAndAcc, data).then((res) => {
 
-                        console.log("esde", res.data)
+                      
                         this.setState({
                             baggageResData: res.data.data
                         }, () => {
@@ -288,7 +288,7 @@ class ProductView extends Component {
                         })
                     })
 
-                    console.log("dateees", res.data.data.createdAt)
+                 
                     const date = res.data.data.createdAt
 
 

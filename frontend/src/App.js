@@ -15,6 +15,7 @@ import invoice from "./Invoice/invoice";
 import ProductView from "./Component/Products/ProductView";
 import UpdateProduct from "./Component/Products/UpdateProduct";
 import advance from "./Component/Advance/advance";
+import AllInvoices from "./Component/AllInvoices/AllInvoices";
 
 
 function App() {
@@ -38,8 +39,11 @@ function App() {
           {/* Invoice Component*/}
           <Route exact path='/invoice' component={invoice} />
 
-           {/* Advance Component*/}
-           <Route exact path='/advance' component={advance} />
+          {/*All Invoice Component*/}
+          <Route exact path='/allInvoice' component={AllInvoices} />
+
+          {/* Advance Component*/}
+          <Route exact path='/advance' component={advance} />
 
 
 

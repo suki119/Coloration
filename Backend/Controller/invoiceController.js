@@ -44,7 +44,7 @@ const addInvoice = async (req,res) => {
 //get all invoice details
 const getallInvoiceDetails =  async (req,res) => {
     try{
-        const InvoiceData = await Invoice.find();
+        const InvoiceData = await Invoice.find().sort({"createdAt":-1});
         return res.status(200).send({
             data:InvoiceData,
             status:2100
@@ -58,6 +58,25 @@ const getallInvoiceDetails =  async (req,res) => {
 
     }
 }
+
+
+// //get all invoice details
+// const getallInvoiceDetails =  async (req,res) => {
+//     try{
+//         const InvoiceData = await Invoice.find();
+//         return res.status(200).send({
+//             data:InvoiceData,
+//             status:2100
+//         });
+
+//     }catch(err){
+
+//         return res.status(500).send({
+//             message:err
+//         })
+
+//     }
+// }
 
 //update details
 const updateInvoiceDetails =  async (req,res) => {
@@ -88,31 +107,60 @@ const updateInvoiceDetails =  async (req,res) => {
     }
 }
 
-// //delete Account
-// const deleteAccountDetails = async (req, res) => {
-//     try{
+//delete Account
+const deleteInvoiceByID = async (req, res) => {
+    try{
 
-//         account.findByIdAndRemove(req.params.id).exec((err, deletedAccount) => {
+        Invoice.findByIdAndRemove(req.params.id).exec((err, deletedAccount) => {
 
       
-//             if (err) {
-//                 return res.status(400).json({
-//                     message: "delete unsuccessful", deletedAccount
-//                 });
-//             }
-//             return res.status(200).json({
-//                 success: "Submission removed successful", deletedAccount
-//             });
-//         });
+            if (err) {
+                return res.status(400).json({
+                    message: "delete unsuccessful", deletedAccount
+                  
+                });
+            }
+            return res.status(200).json({
+                success: "Submission removed successful", deletedAccount,
+                status:2100
+            });
+        });
 
-//     }catch(err){
-//         return res.status(500).send({
-//             message:err
-//         })
+    }catch(err){
+        return res.status(500).send({
+            message:err
+        })
 
-//     }
+    }
     
-// };
+};
+
+
+const getInvoiceByAccName = async (req, res) => {
+    try {
+
+        const { accountName } = req.body;
+        const data = await Invoice.find({ accountName: accountName });
+        if (data) {
+
+            return res.status(200).json({
+                message: "data found", data,
+                status : 2100
+            });
+        }else{
+            
+            return res.status(200).json({
+                message: "No Data found", data
+            });
+        }
+
+    } catch(err) {
+
+        return res.status(400).json({
+            message:err
+        });
+    }
+}
 
 
 
@@ -120,6 +168,8 @@ module.exports = {
     addInvoice,
     getallInvoiceDetails,
     updateInvoiceDetails,
+    getInvoiceByAccName,
+    deleteInvoiceByID
 
    
    

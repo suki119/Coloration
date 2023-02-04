@@ -30,7 +30,8 @@
     "validator": "^13.7.0",
     "vscode-react-ts-snippets": "^2.1.0",
     "web-vitals": "^2.1.4",
-    "file-saver": "^2.0.0"
+    "file-saver": "^2.0.0",
+    "emailjs-com": "^3.2.0"
   },
   "scripts": {
     "start": "react-scripts start",

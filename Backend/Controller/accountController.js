@@ -39,7 +39,7 @@ const addAcountDetails = async (req,res) => {
 //get all acount details
 const getallAccountDetails =  async (req,res) => {
     try{
-        const AccountData = await account.find();
+        const AccountData = await account.find().sort({"createdAt":-1});
         return res.status(200).send({
             data:AccountData,
             status:2100

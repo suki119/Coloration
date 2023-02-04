@@ -42,8 +42,8 @@ class UpdateProductUI extends Component {
         // let { baggageResData } = this.props
         // let statusOfBTN
 
-        // console.log("inside", baggageResData.length)
-        // console.log("index", index)
+        // ("inside", baggageResData.length)
+        // ("index", index)
 
         // if (baggageResData.length > index) {
         //     statusOfBTN = false
@@ -64,7 +64,7 @@ class UpdateProductUI extends Component {
     render() {
 
         let { baggage } = this.props
-        console.log("suki", baggage.length)
+       
         const { selectedOptions } = this.props.selectedOptions;
         return (
             <div className='main-wrapper'>
@@ -355,7 +355,7 @@ class UpdateProductUI extends Component {
                                                             <div class="col-md-8">
                                                                 <div style={{ "overflow": "auto", "height": "320px", "overflowX": "auto" }}>
 
-                                                                    {console.log("obj.CloudinaryImg.length", obj.CloudinaryImg)}
+                                                                  
 
                                                                     {obj.CloudinaryImg.length == 0 ? <img src={logo} class="img-fluid rounded-start" alt="..." style={{ "height": "320px" }} /> : obj.CloudinaryImg.map(Object =>
                                                                         <img src={Object.url} class="img-fluid rounded-start" alt="..." style={{ "paddingBottom": "10px" }} />

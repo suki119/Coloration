@@ -3,9 +3,9 @@ const router = express.Router();
 const upload = require("../helpers/fileHelper");
 
 const { addAcountDetails, getallAccountDetails, updateAccountDetails, deleteAccountDetails, getallAccountByID } = require('../Controller/accountController');
-const { addInvoice, getallInvoiceDetails, updateInvoiceDetails } = require('../Controller/invoiceController');
+const { addInvoice, getallInvoiceDetails, updateInvoiceDetails, getInvoiceByAccName , deleteInvoiceByID} = require('../Controller/invoiceController');
 const { addAdvance, getallAdvanceDetails, updateAdvanceDetails,getaAdvanceAmountByAccAndProd } = require('../Controller/advanceControlller');
-const { addDraftInvoiceData, getallDraftInvoiceDetails, updateDraftInvoiceDetails, getDraftInvoiceByAccAndPro } = require('../Controller/draftInvoiceContoller');
+const { addDraftInvoiceData, getallDraftInvoiceDetails, updateDraftInvoiceDetails, getDraftInvoiceByAccAndPro  } = require('../Controller/draftInvoiceContoller');
 const { addproductDetails, getallProductDetails, updateProductDetails, deleteProductDetails, getProductById, getAllProductsByAccountID , getProductByName} = require('../Controller/productContoller');
 const { addBagageDetails, getallBagageDetails, updateBagageDetails, deleteBagageDetails, addImgForBaggage, getBaggageByAcoNameAndCompanyName } = require('../Controller/bagageController');
 const { addJobetails, getallJobCardDetails, updateJobDetails, deleteJobCardDetails } = require('../Controller/jobCardController');
@@ -43,6 +43,8 @@ router.put('/Sub/AdvanceTot/updateAdvanceTotDetails/:id', updateAdvanceTotDetail
 router.post('/Invoice/addInvoiceData', addInvoice);
 router.get('/Invoice/getAllInvoice', getallInvoiceDetails);
 router.put('/Invoice/update/:id', updateInvoiceDetails);
+router.post('/Invoice/getInvoiceByAccName', getInvoiceByAccName);
+router.delete('/Invoice/deleteInvoiceByID/:id', deleteInvoiceByID);
 
 
 

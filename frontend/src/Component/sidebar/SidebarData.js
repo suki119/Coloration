@@ -37,6 +37,11 @@ export const SidebarData = [
         Link: "/invoice"
     },
     {
+        title: "All Invoices",
+        icon: <BsFileEarmarkArrowUpFill />,
+        Link: "/allInvoice"
+    },
+    {
         title: "Job Card",
         icon: <BsPersonCircle />,
         Link: "/Card"

@@ -126,7 +126,7 @@ const deleteBagageDetails = async (req, res) => {
 
         const id = req.params.id;
         const baggageData = await Bagage.findById(id);
-        console.log(baggageData)
+      
         // Delete image from cloudinary
         baggageData.CloudinaryImg.map(obj =>
 
@@ -164,7 +164,7 @@ const addImgForBaggage = async (req, res) => {
 
     try {
 
-        console.log("req...", req.file)
+       
         const result = await cloudinary.uploader.upload(req.file.path);
 
         return res.status(200).json({

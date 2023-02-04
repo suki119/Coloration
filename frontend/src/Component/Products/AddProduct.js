@@ -117,13 +117,12 @@ class AddProduct extends Component {
                 this.setState({
                     baggageResData
                 })
-                console.log("nnnnnnnn", index)
-                console.log(baggageResData)
+                
             })
 
         }
 
-        console.log(event)
+       
 
 
     }
@@ -138,7 +137,7 @@ class AddProduct extends Component {
 
 
     changeFilePath(event) {
-        console.log("img", event.target.files);
+       
         let { img } = this.state;
         img.push(event.target.files);
         this.setState({
@@ -154,7 +153,7 @@ class AddProduct extends Component {
     }
 
     changCompanyName = (selectedOptions) => {
-        console.log(selectedOptions)
+      
 
 
 
@@ -173,7 +172,7 @@ class AddProduct extends Component {
     }
 
     changCategory = (event) => {
-        console.log(event.target.value)
+     
         this.setState({
             category: event.target.value
         })
@@ -188,11 +187,9 @@ class AddProduct extends Component {
     }
 
     changproductDiscription(event) {
-        console.log("xxxxxxxxxxxxxxx", event)
+       
         this.setState({
             productDiscription: event
-        }, () => {
-            console.log("xxxxxxxxxxxxxxx", this.state.productDiscription)
         });
     }
 
@@ -224,7 +221,7 @@ class AddProduct extends Component {
         const url = 'http://localhost:8000/api/account/post';
 
         axios.post(appURLs.web + webAPI.postAccountData, data).then((res) => {
-            console.log("response", res.data)
+           
         })
 
 
@@ -306,7 +303,7 @@ class AddProduct extends Component {
             })
         });
 
-        console.log("nothing", this.state.img)
+    
 
 
         let max = this.state.img.length - 1;
@@ -352,7 +349,7 @@ class AddProduct extends Component {
 
                     }, () => {
                         this.generateBaggageNumber();
-                        console.log("res baggage", this.state.baggageResData);
+                     
 
                         this.state.baggageResData.forEach(el => {
                             const { slideImages } = this.state;
@@ -365,7 +362,7 @@ class AddProduct extends Component {
                             })
 
                             this.setState({ slideImages }, () => {
-                                console.log("this.state.slideImages", this.state.slideImages)
+                               
                             })
 
 
@@ -385,8 +382,7 @@ class AddProduct extends Component {
 
 
 
-            // console.log(" max", max)
-            // console.log("index", index)
+          
 
 
 
@@ -405,7 +401,7 @@ class AddProduct extends Component {
             let promises = [res];
 
             Promise.all(promises).then((result) => {
-                console.log("result ", result[0].data.result)
+              
 
                 const { CloudinaryImg } = this.state;
 
@@ -425,7 +421,7 @@ class AddProduct extends Component {
 
                     if (max == num) {
 
-                        console.log("inside if")
+                        
                         const baggageDatas = {
 
 
@@ -465,7 +461,7 @@ class AddProduct extends Component {
                                     addButton: false,
                                     submitButton: false
                                 }, () => {
-                                    console.log("res baggage", this.state.baggageResData);
+                                    
 
                                     this.setState({ loader: false });
 
@@ -483,7 +479,7 @@ class AddProduct extends Component {
                                         })
 
                                         this.setState({ slideImages }, () => {
-                                            console.log("this.state.slideImages", this.state.slideImages)
+                                         
                                         })
 
 
@@ -545,7 +541,7 @@ class AddProduct extends Component {
         }
         this.setState({ loader: true });
         axios.post(appURLs.web + webAPI.getProductByName, { "productName": this.state.productName }).then((res) => {
-            console.log("re res", res.data)
+           
 
             if (res.data.data !== null) {
                 Swal.fire({
@@ -666,7 +662,7 @@ class AddProduct extends Component {
             CompanyPhonenumber: this.state.companyPhoneNumber.value,
             CompanyAddress: companyAddress
         }
-        console.log("data", newAccont)
+       
 
         if (this.state.holderName.value && this.state.phoneNumber.value && this.state.companyName.value && this.state.companyEmailAddress.value &&
             this.state.companyPhoneNumber.value && this.state.comAddressCity.value && this.state.comAddressStreet.value && this.state.comAddressNum.value) {
@@ -912,18 +908,18 @@ class AddProduct extends Component {
     componentWillUnmount() {
 
         const { baggageResData } = this.state;
-        console.log("this.state.baggageResData !", baggageResData);
+      
 
 
         const data = window.addEventListener("beforeunload", function (e) {
 
 
             let confirmationMessage = "o/";
-            console.log("logout !", confirmationMessage);
+          
 
             (e || window.event).returnValue = confirmationMessage; //Gecko + IE
 
-            console.log("this.state.baggageResData !", baggageResData);
+         
             window.location.reload(true);
 
             return confirmationMessage; //Webkit, Safari, Chrome
