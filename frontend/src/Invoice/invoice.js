@@ -12,11 +12,14 @@ import { MDBDataTable } from 'mdbreact';
 import { Image } from 'cloudinary-react';
 import Select from 'react-select';
 import { appURLs, webAPI } from '../enum/URL';
+import { EmailCredentials } from '../enum/Constant';
 import Swal from 'sweetalert2';
 import Loader from '../Component/loader/Loader';
 import { BsTrashFill, BsJustify } from "react-icons/bs";
 import { HiMinus } from "react-icons/hi";
 import { saveAs } from 'file-saver';
+import emailjs from "emailjs-com";
+
 
 
 
@@ -63,7 +66,7 @@ class invoice extends Component {
             preAdavceData: '',
             adavanceObjectData: '',
             adavanceObjectList: [],
-            selectedAccountData:'',
+            selectedAccountData: '',
             test: [
                 {
                     "productName": "selectedProductOptions.label,",
@@ -168,7 +171,7 @@ class invoice extends Component {
         this.setState({ loader: true });
         axios.post(appURLs.web + webAPI.addDraftInvoiceData, invoiceObject).then((res) => {
             if (res.data.status === 2100) {
-                console.log("invoiceObject", res.data.data)
+               
                 Swal.fire({
                     position: 'top-end',
                     icon: 'success',
@@ -235,7 +238,7 @@ class invoice extends Component {
             loader: true
         })
 
-        axios.post(appURLs.web + webAPI.postInvoiceDetails, { "InvoiceData": data , "AccountData" : this.state.selectedAccountData })
+        axios.post(appURLs.web + webAPI.postInvoiceDetails, { "InvoiceData": data, "AccountData": this.state.selectedAccountData })
             .then(() => axios.get(appURLs.web + webAPI.getInvoiceDetails, { responseType: 'blob' }))
             .then((res) => {
 
@@ -247,7 +250,91 @@ class invoice extends Component {
                     })
                 }
                 saveAs(pdfBlob, "INVOICE - " + data.invoiceNumber + " " + data.productDetails[0].productName);
+
+            }).catch((error) => {
+                console.error('Error', error);
+                this.setState({ loader: false });
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Network Error in PDF Creating',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+
+
             })
+
+
+    }
+
+    onMailSend(invoiceObject) {
+
+        if (this.state.companyEmailAddress !== '') {
+
+          
+
+            const emailobject = {
+
+                "toEmail": this.state.companyEmailAddress,
+                "invoiceNo": invoiceObject.invoiceNumber,
+                "compName": this.state.companyName,
+                "projName": invoiceObject.productDetails[0].productName,
+                "date": invoiceObject.date,
+                "inSubTot": (Number(invoiceObject.subTotal)).toLocaleString('en-US'),
+                "inAdavance": invoiceObject.advance !== 0 ? (Number(invoiceObject.advance)).toLocaleString('en-US') : "0",
+                "inDiscount": String(invoiceObject.discount)+"%",
+                "inTotalAmount": "LKR: "+(Number(invoiceObject.totalAmount)).toLocaleString('en-US'),
+            }
+
+            let wording = '';
+            let productStringDataArrey = []
+
+            invoiceObject.productDetails.map((obj, index) => (
+
+              
+
+                wording = (index + 1 +". "+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + obj.productName   +'\xa0\xa0'+'\xa0\xa0\xa0\xa0' + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' +
+                    (Number(obj.productamount)).toLocaleString('en-US')  +'\xa0\xa0\xa0\xa0\xa0\xa0\xa0' +'\xa0\xa0\xa0\xa0\xa0\xa0\xa0' +'\xa0\xa0\xa0' +
+                    (Number(obj.productqty)).toLocaleString('en-US') + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' +'\xa0\xa0\xa0\xa0\xa0\xa0\xa0' +
+                    String(obj.productDiscount)+"%" + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' +'\xa0\xa0\xa0\xa0\xa0\xa0\xa0'  +
+                    "LKR. "+(Number(obj.producttotalamount)).toLocaleString('en-US')+'\xa0\xa0\xa0\xa0\xa0\xa0\xa0' +'\xa0\xa0\xa0\xa0\xa0\xa0\xa0' +'\xa0\xa0\xa0\xa0' + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0'+'\xa0\xa0\xa0\xa0'+
+                    (obj.productOtherDes !== '' ? "Discription - "+obj.productOtherDes : "-")) ,
+                productStringDataArrey.push(wording)
+
+            )
+            )
+
+
+
+            emailobject.productStringline1 = productStringDataArrey[0] !== null ? productStringDataArrey[0] : " - ";
+            emailobject.productStringline2 = productStringDataArrey[1] !== null ? productStringDataArrey[1] : " - ";
+            emailobject.productStringline3 = productStringDataArrey[2] !== null ? productStringDataArrey[2] : " - ";
+            emailobject.productStringline4 = productStringDataArrey[3] !== null ? productStringDataArrey[3] : " - ";
+            emailobject.productStringline5 = productStringDataArrey[4] !== null ? productStringDataArrey[4] : " - ";
+
+           
+
+            this.setState({loader:true});
+            emailjs.send(EmailCredentials.SERVICE, EmailCredentials.TEMPLATE, emailobject, EmailCredentials.PUBLIC_KEY).then(res => {
+                if(res.status === 200){
+                    this.setState({loader:false});
+                }
+
+            }).catch((error) => {
+                console.error('Error', error);
+                this.setState({ loader: false });
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Network Error in Email Sending',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+
+
+            });
+        }
 
 
     }
@@ -256,7 +343,7 @@ class invoice extends Component {
     onInvoiceSubmit(e) {
         e.preventDefault();
         const { companyName, invoiceNumber, companyID, invoiceTotal, invoiceDiscount, productID, productName,
-            invoiceAdvanceAmount, datetoday, comAddressCity, comAddressNum, comAddressStreet, productObjectArrey, adavanceObjectList , invoiceSubTotal } = this.state
+            invoiceAdvanceAmount, datetoday, comAddressCity, comAddressNum, comAddressStreet, productObjectArrey, adavanceObjectList, invoiceSubTotal } = this.state
 
         let invNumber = (invoiceNumber).split(" ");
 
@@ -273,7 +360,7 @@ class invoice extends Component {
             "totalAmount": Number(invoiceTotal),
             "advance": Number(newAdvanceAmount),
             "discount": Number(invoiceDiscount),
-            "subTotal":Number(invoiceSubTotal),
+            "subTotal": Number(invoiceSubTotal),
             "date": datetoday,
             "accountAddress": comAddressNum + ", " + comAddressStreet + ", " + comAddressCity,
             "productDetails": productObjectArrey
@@ -285,7 +372,7 @@ class invoice extends Component {
         axios.post(appURLs.web + webAPI.addInvoiceData, invoiceObject).then((res) => {
             if (res.data.status === 2100) {
 
-                console.log("advanceobject", adavanceObjectList)
+               
                 adavanceObjectList.map(object => {
 
 
@@ -325,11 +412,12 @@ class invoice extends Component {
 
 
 
-                this.onPdfSave(res.data.newData)
+                this.onPdfSave(res.data.newData);
+                this.onMailSend(invoiceObject);
 
 
 
-                console.log("invoiceObject", res.data.data)
+              
                 this.setState({
                     loader: false,
                     selectedOptions: [],
@@ -520,24 +608,21 @@ class invoice extends Component {
 
 
             }, () => {
-                console.log("productObjectArrey", this.state.productObjectArrey)
-                console.log("selectedObject.productName", selectedObject)
-                console.log("advanceAmountAvb", this.state.adavanceObjectList)
+               
                 let advanceAmountAvb = this.state.adavanceObjectList.find(i => i.productID === selectedObject.productID);
-                console.log("advanceAmountAvb", advanceAmountAvb)
+               
 
                 let question = this.state.productObjectArrey.find(i => i.productName === selectedObject.productName);
 
                 if (question == undefined && advanceAmountAvb != undefined) {
 
                     let objectIndex = this.state.adavanceObjectList.findIndex(i => i.productID === selectedObject.productID);
-                    console.log("this.state.adavanceObjectList.this.state.adavanceObjectList", this.state.adavanceObjectList)
-                    console.log("objectIndex", objectIndex)
+                  
                     var objectList = [...this.state.adavanceObjectList];
 
                     objectList.splice(Number(objectIndex), 1);
 
-                    console.log("objectList", objectList)
+                   
                     this.setState({
                         adavanceObjectList: objectList
                     }, () => {
@@ -569,7 +654,7 @@ class invoice extends Component {
             let joinedNumber = number.join('');
 
 
-            console.log("prorate", Number(joinedNumber))
+         
 
             if (Number(productDiscount) === 0) {
 
@@ -577,7 +662,7 @@ class invoice extends Component {
 
 
             } else {
-                console.log("productDiscount", Number(productDiscount / 100))
+             
                 amount = (productQTY * Number(joinedNumber));
                 let discountAmount = (amount * Number(productDiscount)) / 100;
                 finalAmount = amount - discountAmount;
@@ -619,7 +704,7 @@ class invoice extends Component {
 
         let totNumbber = 0
 
-        console.log("whyy", this.state.adavanceObjectList)
+      
 
         if (this.state.adavanceObjectList[0] !== null) {
 
@@ -749,6 +834,7 @@ class invoice extends Component {
                     productDiscount: 0,
                     productAmount: "0",
                     selectedProductOptions: [],
+                    otherProductDes:''
 
                 })
             })
@@ -779,7 +865,7 @@ class invoice extends Component {
 
 
     changeProductDiscount = (event) => {
-        console.log("chnage", event.target.value)
+     
 
 
 
@@ -836,8 +922,7 @@ class invoice extends Component {
 
         if (productObjectArrey.length !== 0) {
 
-            console.log("productObjectArrey.length", productObjectArrey)
-            console.log("productObjectArrey.length 2", preAdavceData[0])
+         
 
             productObjectArrey.map(obj => {
 
@@ -845,7 +930,7 @@ class invoice extends Component {
 
             })
 
-            console.log("sameData.sameData 2", sameData)
+          
 
 
         }
@@ -884,7 +969,7 @@ class invoice extends Component {
 
                 }, () => {
                     // this.calculateAdvanceAmount()
-                    console.log("data", this.state.adavanceObjectData)
+                   
                 })
 
             }
@@ -996,8 +1081,7 @@ class invoice extends Component {
         this.setState({ loader: true });
         axios.post(appURLs.web + webAPI.getAllProductsByAccountID, { 'accountID': this.state.selectedOptions.value }).then((res) => {
             if (res.data.status === 2100 && res.data.data.length != 0) {
-                console.log("produvct", res.data.data.length)
-
+                
 
                 this.setState({
                     allProducts: res.data.data,
@@ -1050,8 +1134,7 @@ class invoice extends Component {
 
 
     changCompanyName = (selectedOptions) => {
-        console.log("select", selectedOptions)
-
+      
         this.setState({
 
             productQTY: 1,
@@ -1085,7 +1168,7 @@ class invoice extends Component {
         }, () => {
             this.getAccountByID();
             this.getAllProductsByAccountID();
-            console.log("select 2", this.state.selectedProductOptions)
+           
         });
     }
 
@@ -1101,7 +1184,7 @@ class invoice extends Component {
         MyDateString = ('0' + MyDate.getDate()).slice(-2) + '/'
             + ('0' + (MyDate.getMonth() + 1)).slice(-2) + '/'
             + MyDate.getFullYear();
-        console.log(MyDateString + "new date")
+       
         this.setState({
             datetoday: MyDateString
         })
@@ -1112,7 +1195,7 @@ class invoice extends Component {
     dateHandle = (e) => {
         let date = e.target.value;
         if (date == "") {
-            console.log("date no");
+      
         }
 
     }
@@ -1130,11 +1213,11 @@ class invoice extends Component {
 
     getAccountByID() {
 
-        console.log("this id", this.state.AccountID)
+       
         this.setState({ loader: true })
         axios.get(appURLs.web + webAPI.getAccountById + this.state.selectedOptions.value).then((res) => {
 
-            console.log("res data", res.data.data)
+            
             if (res.data.data) {
                 const addresArrey = res.data.data.CompanyAddress;
                 const newArrey = addresArrey.split(", ");
@@ -1178,26 +1261,26 @@ class invoice extends Component {
     invoiceNumberCreation() {
 
         const { allInvoice } = this.state;
-        console.log("allInvoice", allInvoice)
-        const lastObject = allInvoice[(allInvoice.length) - 1]
-        if(lastObject){
+      
+        const lastObject = allInvoice[0]
+        if (lastObject) {
             let invoiceNumber = Number(lastObject.invoiceNumber) + 1;
 
             let formattedNumber = invoiceNumber.toLocaleString('en-US', {
                 minimumIntegerDigits: 4,
                 useGrouping: false
             })
-    
+
             this.setState({
                 invoiceNumber: "IN - " + formattedNumber
             })
-        }else{
+        } else {
 
             this.setState({
                 invoiceNumber: "IN - 001 "
             })
         }
-      
+
 
     }
 
@@ -1233,12 +1316,41 @@ class invoice extends Component {
 
     }
 
+    // test(){
+
+
+    //     axios.post(appURLs.web + webAPI.getInvoiceByAccName,{"accountName":"Test Company Name"}).then((res) => {
+
+
+    //         console.log(res.data.data);
+
+    //         let data = res.data.data;
+
+    //         data.map(obj => 
+
+    //             setTimeout(function () {
+    //                 axios.delete(appURLs.web + webAPI.deleteInvoiceByID + obj._id).then((res) => {
+
+
+    //                 })
+    //               }, 2000)
+              
+                
+                
+    //             )
+
+    //     })
+
+    // }
+
 
     componentDidMount() {
 
         this.getDateAndTime();
         this.getAccountDetails();
         this.getAllInvoice();
+
+        // this.test();
     }
 
 

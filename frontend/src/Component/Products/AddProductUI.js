@@ -334,7 +334,7 @@ class AddProductUI extends Component {
                                                             <div class="col-md-8">
                                                                 <div style={{ "overflow": "auto", "height": "320px", "overflowX": "auto" }}>
 
-                                                                    {console.log("obj.CloudinaryImg.length", obj.CloudinaryImg)}
+                                                                   
 
                                                                     {obj.CloudinaryImg.length == 0 ? <img src={logo} class="img-fluid rounded-start" alt="..." style={{ "height": "320px" }} /> : obj.CloudinaryImg.map(Object =>
                                                                         <img src={Object.url} class="img-fluid rounded-start" alt="..." style={{ "paddingBottom": "10px" }} />

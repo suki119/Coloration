@@ -6,8 +6,7 @@ module.exports = ({ InvoiceData, AccountData }) => {
   const today = new Date();
 
 
-  console.log("InvoiceData33", InvoiceData);
-  console.log("AccountData", AccountData);
+
 
   // function getDueDate() {
 
@@ -190,7 +189,7 @@ module.exports = ({ InvoiceData, AccountData }) => {
   table td {
     padding: 20px;
     text-align: right;
-    font-size:14px
+    font-size:12px
   }
   
   table td.service,
@@ -201,7 +200,7 @@ module.exports = ({ InvoiceData, AccountData }) => {
   table td.unit,
   table td.qty,
   table td.total {
-    font-size: 1.2em;
+    font-size: 1.0em;
   }
   
   table td.grand {

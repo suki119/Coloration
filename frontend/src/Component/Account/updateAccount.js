@@ -106,6 +106,8 @@ class updateAccount extends Component {
                 })
 
 
+            }else{
+                this.setState({ loader: false })
             }
         }).catch((error) => {
             console.error('Error',error);
@@ -199,7 +201,7 @@ class updateAccount extends Component {
         this.setState({ loader: true });
 
         axios.put(appURLs.web + webAPI.updateAccountData + this.state.AccountID , data).then((res) => {
-            console.log("response", res.data)
+           
             if (res.data) {
                 Swal.fire(
                     data.CompanyName+' Updated!',
@@ -238,14 +240,14 @@ class updateAccount extends Component {
         window.location.reload(false);
         this.getAccountByID();
 
-        console.log("inside edit", data)
+       
     }
 
 
     add = (event) => {
 
         event.preventDefault();
-        console.log("hiiii",this.formData)
+       
 
         
 
@@ -262,7 +264,7 @@ class updateAccount extends Component {
             CompanyPhonenumber: this.state.companyPhoneNumber,
             CompanyAddress: companyAddress
         }
-        console.log("data", newAccont)
+        
 
         if (this.state.holderName && this.state.phoneNumber && this.state.companyName && this.state.companyEmailAddress &&
             this.state.companyPhoneNumber && this.state.comAddressCity && this.state.comAddressStreet && this.state.comAddressNum ) {
@@ -330,7 +332,7 @@ class updateAccount extends Component {
                 allAcounts: res.data.data
             }, () => {
 
-                console.log("...///", this.state.allAcounts)
+             
 
                 const userAttributes = []
                 this.state.allAcounts.forEach(el => {
@@ -397,11 +399,11 @@ class updateAccount extends Component {
 
     getAccountByID() {
 
-        console.log("this id", this.state.AccountID)
+       
         this.setState({ loader: true })
         axios.get(appURLs.web + webAPI.getAccountById + this.state.AccountID).then((res) => {
 
-            console.log("res data", res.data.data)
+         
             if (res.data.data) {
                 const addresArrey = res.data.data.CompanyAddress;
                 const newArrey = addresArrey.split(", ");

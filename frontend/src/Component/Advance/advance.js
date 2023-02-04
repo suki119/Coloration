@@ -121,7 +121,7 @@ class advance extends Component {
                 .then(axios.spread((resOne, resTwo) => {
 
                     this.setState({ loader: false });
-                    console.log('data1', resOne, 'data2', resTwo)
+                  
 
                     if (resOne.data.status === 2100 && resTwo.data.status === 2100) {
 
@@ -200,7 +200,7 @@ class advance extends Component {
 
         let total = 0;
 
-        console.log("pre", preAdavceData)
+      
         if (preAdavceData !== null) {
 
             // preAdavceData.map(obj => {

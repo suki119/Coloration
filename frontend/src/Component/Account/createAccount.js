@@ -142,7 +142,7 @@ class createAccount extends Component {
 
 
         axios.post(appURLs.web + webAPI.postAccountData, data).then((res) => {
-            console.log("response", res.data)
+            
             if (res.data.status) {
 
                 this.setState({
@@ -196,14 +196,14 @@ class createAccount extends Component {
 
         this.props.history.push(`/edit_Account/${id}`);
 
-        console.log("inside edit", id)
+      
     }
 
 
     add = (event) => {
 
         event.preventDefault();
-        console.log("hiiii", this.formData)
+       
 
 
 
@@ -220,7 +220,7 @@ class createAccount extends Component {
             CompanyPhonenumber: this.state.companyPhoneNumber,
             CompanyAddress: companyAddress
         }
-        console.log("data", newAccont)
+       
 
         if (this.state.holderName && this.state.phoneNumber && this.state.companyName && this.state.companyEmailAddress &&
             this.state.companyPhoneNumber && this.state.comAddressCity && this.state.comAddressStreet && this.state.comAddressNum) {
@@ -286,7 +286,7 @@ class createAccount extends Component {
         this.setState({ loader: true })
         axios.get(appURLs.web + webAPI.getAccountData).then((res) => {
 
-            console.log("ss",res.data.status)
+          
 
             if(res.data.status){
                
@@ -295,7 +295,7 @@ class createAccount extends Component {
                     allAcounts: res.data.data
                 }, () => {
                     this.setState({ loader: false })
-                    console.log("...///", this.state.allAcounts)
+                
     
                     const userAttributes = []
                     this.state.allAcounts.forEach(el => {

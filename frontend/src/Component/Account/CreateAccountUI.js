@@ -26,7 +26,7 @@ class CreateAccountUI extends Component {
 
     render() {
 
-        console.log("prop", this.props)
+     
         return (
             <div className='main-wrapper'>
                 <div className='app-header'>

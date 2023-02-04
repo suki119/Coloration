@@ -2,7 +2,7 @@ import {NotificationManager} from "react-notifications";
 
 const Notifications = {
     createNotification: function (type, message, timeOut) {
-        console.log("inside return: ", type.toString()[1]);
+      
         if (message && message !== 'cancel') {
 			switch (type.toString()[1]) {
 				//success

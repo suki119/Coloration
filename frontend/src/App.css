@@ -96,7 +96,12 @@ body {
 
 .sidebarList li:hover {
   cursor: pointer;
-  background-color: #e6e7ea;
+  background-color: #4e5b82;
+}
+
+.sidebarList li:active {
+  cursor: pointer;
+  background-color: #4e5b82;
 }
 
 .sidebarList a {
@@ -106,6 +111,14 @@ body {
   align-items: center;
   text-decoration: none;
 }
+
+.sidebarList a:hover {
+  color: rgb(0, 0, 0);
+ 
+}
+
+
+
 
 /* .sidebar img {
   margin-top: 4px;

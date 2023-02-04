@@ -38,7 +38,7 @@ const addproductDetails = async (req, res) => {
 //get all acount details
 const getallProductDetails = async (req, res) => {
     try {
-        const ProductData = await Product.find();
+        const ProductData = await Product.find().sort({"createdAt":-1});
         return res.status(200).send({
             data: ProductData
         });

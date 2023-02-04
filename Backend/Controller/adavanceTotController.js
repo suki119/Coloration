@@ -79,7 +79,7 @@ const addAdvanceTot = async (req, res) => {
 //get all AdvanceTotModel details
 const getallAdvanceTotDetails = async (req, res) => {
     try {
-        const AdvanceData = await AdvanceTotModel.find();
+        const AdvanceData = await AdvanceTotModel.find().sort({"createdAt":-1});
         return res.status(200).send({
             data: AdvanceData,
             status: 2100

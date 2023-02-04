@@ -47,6 +47,8 @@ export const webAPI = {
 
   getAllInvoice: 'api/Invoice/getAllInvoice',
   addInvoiceData: 'api/Invoice/addInvoiceData',
+  getInvoiceByAccName: 'api/Invoice/getInvoiceByAccName',
+  deleteInvoiceByID : 'api/Invoice/deleteInvoiceByID/',
 
 
   /************************ Draft Invoice API *********************************/
