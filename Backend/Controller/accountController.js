@@ -8,7 +8,7 @@ const addAcountDetails = async (req,res) => {
     let newData = new account(req.body);
 
    
-//    const { ProductName ,Address , EmailAddress , PhoneNumber ,UserName } = req.body;
+
   
     const data = req.body
 
