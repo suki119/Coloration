@@ -140,7 +140,7 @@ class createAccount extends Component {
     postAccountData(data) {
 
 
-
+        'http://localhost:8000/api/account/addAcountDetails'
         axios.post(appURLs.web + webAPI.postAccountData, data).then((res) => {
             
             if (res.data.status) {
@@ -384,3 +384,6 @@ class createAccount extends Component {
 }
 
 export default createAccount;
+
+
+

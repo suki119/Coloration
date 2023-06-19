@@ -16,6 +16,7 @@ import ProductView from "./Component/Products/ProductView";
 import UpdateProduct from "./Component/Products/UpdateProduct";
 import advance from "./Component/Advance/advance";
 import AllInvoices from "./Component/AllInvoices/AllInvoices";
+import quotation from "./Component/Quotation/quotation";
 
 
 function App() {
@@ -44,6 +45,9 @@ function App() {
 
           {/* Advance Component*/}
           <Route exact path='/advance' component={advance} />
+
+          {/* Quotation Component*/}
+          <Route exact path='/quotation' component={quotation} />
 
 
 
