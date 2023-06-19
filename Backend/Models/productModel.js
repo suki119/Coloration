@@ -65,6 +65,7 @@ const productSchema = new mongoose.Schema({
                 required: false,
                 trim: true
             }
+            
         }]
     
    

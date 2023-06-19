@@ -42,9 +42,9 @@ export const SidebarData = [
         Link: "/allInvoice"
     },
     {
-        title: "Job Card",
+        title: "Quotation",
         icon: <BsPersonCircle />,
-        Link: "/Card"
+        Link: "/quotation"
     }, {
         title: "Message",
         icon: <BsPersonCircle />,

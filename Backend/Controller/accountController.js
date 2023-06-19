@@ -22,7 +22,8 @@ const addAcountDetails = async (req,res) => {
             }
             return res.status(200).json({
                 status:'2100',
-                message:"data added succsesfull"
+                message:"data added succsesfull",
+                name:"sadunika"
             });
         });
 

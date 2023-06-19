@@ -4,6 +4,7 @@ const upload = require("../helpers/fileHelper");
 
 const { addAcountDetails, getallAccountDetails, updateAccountDetails, deleteAccountDetails, getallAccountByID } = require('../Controller/accountController');
 const { addInvoice, getallInvoiceDetails, updateInvoiceDetails, getInvoiceByAccName , deleteInvoiceByID} = require('../Controller/invoiceController');
+const { addQuotation, getQuotationByAccName, updateQuotationDetails , deleteQuotationByID, getallQuotationDetails} = require('../Controller/quotationController');
 const { addAdvance, getallAdvanceDetails, updateAdvanceDetails,getaAdvanceAmountByAccAndProd } = require('../Controller/advanceControlller');
 const { addDraftInvoiceData, getallDraftInvoiceDetails, updateDraftInvoiceDetails, getDraftInvoiceByAccAndPro  } = require('../Controller/draftInvoiceContoller');
 const { addproductDetails, getallProductDetails, updateProductDetails, deleteProductDetails, getProductById, getAllProductsByAccountID , getProductByName} = require('../Controller/productContoller');
@@ -13,11 +14,16 @@ const { addreciptDetails, getallReciptDetails, } = require('../Controller/recipt
 const { addAdvanceTot , getaAdvanceTotAmountByAccAndProd , updateAdvanceTotDetails } = require('../Controller/adavanceTotController');
 
 const { postInvoiceDetails , getInvoiceDetails } = require('../Controller/ReportController/invoiceReportControoller');
+const { postQuotationReportData , getQuotationReportDetails } = require('../Controller/ReportController/quotationaReportController');
 
 //Report
 //Invoice
 router.post('/Reports/Invoice/postInvoiceDetails',postInvoiceDetails);
 router.get('/Reports/Invoice/getInvoiceDetails',getInvoiceDetails);
+
+//Quotation
+router.post('/Reports/Quotation/postQuotationReportData',postQuotationReportData);
+router.get('/Reports/Quotation/getQuotationReportDetails',getQuotationReportDetails);
 
 //Account detail api post
 router.post('/account/addAcountDetails', addAcountDetails);
@@ -45,6 +51,14 @@ router.get('/Invoice/getAllInvoice', getallInvoiceDetails);
 router.put('/Invoice/update/:id', updateInvoiceDetails);
 router.post('/Invoice/getInvoiceByAccName', getInvoiceByAccName);
 router.delete('/Invoice/deleteInvoiceByID/:id', deleteInvoiceByID);
+
+
+//Quotation detail api post
+router.post('/Quotation/addQuotationData', addQuotation);
+router.get('/Quotation/getAllQuotation', getallQuotationDetails);
+router.put('/Quotation/update/:id', updateQuotationDetails);
+router.post('/Quotation/getQuotationByAccName', getQuotationByAccName);
+router.delete('/Quotation/deleteQuotationByID/:id', deleteQuotationByID);
 
 
 

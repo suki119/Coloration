@@ -36,19 +36,29 @@ export const webAPI = {
   addAdvance: 'api/Advance/addAdvance',
   getallAdvanceDetails: 'api/Advance/getallAdvanceDetails',
   updateAdvanceDetails: 'api/Advance/updateAdvanceDetails/',
-  getaAdvanceAmountByAccAndProd : 'api/Advance/getaAdvanceAmountByAccAndProd',
+  getaAdvanceAmountByAccAndProd: 'api/Advance/getaAdvanceAmountByAccAndProd',
 
-   /************************ Advance Tot API *********************************/
-   addAdvanceTot:'api/Sub/AdvanceTot/addAdvanceTot',
-   getaAdvanceTotAmountByAccAndProd : 'api/Sub/AdvanceTot/getaAdvanceTotAmountByAccAndProd',
-   updateAdvanceTotDetails : 'api/Sub/AdvanceTot/updateAdvanceTotDetails/',
+  /************************ Advance Tot API *********************************/
+  addAdvanceTot: 'api/Sub/AdvanceTot/addAdvanceTot',
+  getaAdvanceTotAmountByAccAndProd: 'api/Sub/AdvanceTot/getaAdvanceTotAmountByAccAndProd',
+  updateAdvanceTotDetails: 'api/Sub/AdvanceTot/updateAdvanceTotDetails/',
 
   /************************ Invoice API *********************************/
 
   getAllInvoice: 'api/Invoice/getAllInvoice',
   addInvoiceData: 'api/Invoice/addInvoiceData',
   getInvoiceByAccName: 'api/Invoice/getInvoiceByAccName',
-  deleteInvoiceByID : 'api/Invoice/deleteInvoiceByID/',
+  deleteInvoiceByID: 'api/Invoice/deleteInvoiceByID/',
+
+
+
+  /************************ Quotation API *********************************/
+
+  getAllQuotation: 'api/Quotation/getAllQuotation',
+  addQuotationData: 'api/Quotation/addQuotationData',
+  getQuotationByAccName: 'api/Quotation/getQuotationByAccName',
+  deleteQuotationByID: 'api/Quotation/deleteQuotationByID/',
+
 
 
   /************************ Draft Invoice API *********************************/
@@ -59,9 +69,13 @@ export const webAPI = {
   getDraftInvoiceByAccAndPro: 'api/draft/Invoice/updateDraftInvoiceDetails',
 
 
-  /************************ Invoice API *********************************/
-  postInvoiceDetails : 'api/Reports/Invoice/postInvoiceDetails',
-  getInvoiceDetails : 'api/Reports/Invoice/getInvoiceDetails',
+  /************************ Invoice Report API *********************************/
+  postInvoiceDetails: 'api/Reports/Invoice/postInvoiceDetails',
+  getInvoiceDetails: 'api/Reports/Invoice/getInvoiceDetails',
+
+  /************************ Quotation Report API *********************************/
+  postQuotationReportData: 'api/Reports/Quotation/postQuotationReportData',
+  getQuotationReportDetails: 'api/Reports/Quotation/getQuotationReportDetails',
 
 
 
