@@ -17,7 +17,7 @@ const postInvoiceDetails = async (req, res) => {
 const getInvoiceDetails = async (req, res) => {
 
     res.sendFile(`/Colouration_Yashoda/Coloration/Backend/invoice.pdf`)
-    // res.sendFile(`/Coloration_Software/Coloration-main/Backend/invoice.pdf`)
+    // res.sendFile(`/Coloration_Software/Coloration-main/Coloration/Backend/invoice.pdf`)
 }
 
 module.exports = {
