@@ -7,7 +7,7 @@ import { BsStickiesFill } from "react-icons/bs";
 import { BsPersonLinesFill } from "react-icons/bs";
 import { BsArrowDownCircleFill } from "react-icons/bs";
 import { BsFileEarmarkArrowUpFill } from "react-icons/bs";
-import { BsPersonCircle } from "react-icons/bs";
+import { BsPersonCircle , BsCashCoin ,BsFillFileEarmarkBreakFill ,BsCash ,BsGrid3X3GapFill } from "react-icons/bs";
 
 export const SidebarData = [
     {
@@ -23,12 +23,12 @@ export const SidebarData = [
    
     {
         title: "Products",
-        icon: <BsArrowDownCircleFill />,
+        icon: <BsGrid3X3GapFill />,
         Link: "/Products"
     },
     {
         title: "Advance",
-        icon: <BsFileEarmarkArrowUpFill />,
+        icon: <BsCash />,
         Link: "/advance"
     },
     {
@@ -43,11 +43,11 @@ export const SidebarData = [
     },
     {
         title: "Quotation",
-        icon: <BsPersonCircle />,
+        icon: <BsFillFileEarmarkBreakFill />,
         Link: "/quotation"
     }, {
-        title: "Message",
-        icon: <BsPersonCircle />,
-        Link: "/studentmsg"
+        title: "Payminder",
+        icon: <BsCashCoin />,
+        Link: "/invoiceList"
     }
 ]

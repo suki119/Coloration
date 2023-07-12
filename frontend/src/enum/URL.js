@@ -49,6 +49,9 @@ export const webAPI = {
   addInvoiceData: 'api/Invoice/addInvoiceData',
   getInvoiceByAccName: 'api/Invoice/getInvoiceByAccName',
   deleteInvoiceByID: 'api/Invoice/deleteInvoiceByID/',
+  getInvoiceListByAccId : 'api/Invoice/getInvoiceListByAccId',
+  updateInvoiceByID : 'api/Invoice/updateInvoiceByID/',
+  getInvoiceByID : 'api/Invoice/getInvoiceByID/',
 
 
 
@@ -77,8 +80,10 @@ export const webAPI = {
   postQuotationReportData: 'api/Reports/Quotation/postQuotationReportData',
   getQuotationReportDetails: 'api/Reports/Quotation/getQuotationReportDetails',
 
-
-
+  /************************ PayReminder Report API *********************************/
+  addPayReminder: 'api/payReminder/addPayReminder',
+  getPayReminderByInvoiceNo : 'api/payReminder/getPayReminderByInvoiceNo',
+  updatePayReminderDetails : 'api/payReminder/updatePayReminderDetails/',
 
 
   /************************ Img Uploading API *********************************/
