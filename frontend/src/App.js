@@ -17,6 +17,8 @@ import UpdateProduct from "./Component/Products/UpdateProduct";
 import advance from "./Component/Advance/advance";
 import AllInvoices from "./Component/AllInvoices/AllInvoices";
 import quotation from "./Component/Quotation/quotation";
+import InvoiceList from "./Component/Payminder/InvoiceList";
+import EmailSennder from "./Component/Payminder/EmailSennder";
 
 
 function App() {
@@ -49,11 +51,17 @@ function App() {
           {/* Quotation Component*/}
           <Route exact path='/quotation' component={quotation} />
 
+          {/* Payminder Component*/}
+          <Route exact path='/invoiceList' component={InvoiceList} />
+
+          {/* EmailSennder Component*/}
+          <Route exact path='/emailSennder/:id' component={EmailSennder} />
 
 
 
 
-          {/* <Redirect to='/home' component={home} /> */}
+          <Redirect to='/Accounts' component={createAccount} />
+
         </Switch>
 
       </Router>

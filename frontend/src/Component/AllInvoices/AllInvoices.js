@@ -16,6 +16,8 @@ import Notifications from "../../Notification/notification";
 import { NotificationManager, NotificationContainer } from "react-notifications";
 import { FcCheckmark, FcCancel, FcOk, FcInspection, FcOvertime, FcProcess, FcPicture } from "react-icons/fc";
 import Select from 'react-select';
+import Toggle from 'react-toggle';
+import 'react-toggle/style.css';
 
 class AllInvoices extends Component {
 
@@ -30,18 +32,55 @@ class AllInvoices extends Component {
         }
     }
 
+    handleRemarkToggle(rowObject,status) {
+
+        rowObject.invoiceStatus = status;
+        this.setState({ loader: true });
+    
+        axios.put(appURLs.web + webAPI.updateInvoiceByID + rowObject._id , rowObject).then((res) => {
+           
+            if (res.data.status === 2100) {
+                Swal.fire(
+                    "Invoice - "+rowObject.invoiceNumber+' Updated!',
+                    'Payament has updated.',
+                    'success'
+                  )
+                this.getAllInvoices();
+
+            }
+        }).catch((error) => {
+            console.error('Error',error);
+            this.setState({ loader: false });
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: 'Network Error',
+                showConfirmButton: false,
+                timer: 1500
+              })
+         
+
+        })
+
+      
+
+
+    }
+
+   
 
     setDataToTable() {
 
         const userAttributes = []
         this.state.listOfInvoices.forEach(el => {
-
+            const isPaid = el.invoiceStatus === "Y";
             // let dateObject = new Date(el.createdAt)
             // let formatedData = dateObject.getFullYear() + " / " + (dateObject.getMonth() + 1) + " / " + dateObject.getDate() 
 
             userAttributes.push({
                 date: el.date,
-                invoiceNo: "INV- " + el.invoiceNumber,
+                invoiceNo: el.invoiceStatus === "Y" ? <span style={{ "backgroundColor": "green", "fontWeight": "700", "padding": "10px" ,"color":"white" }}> {"INV- " + el.invoiceNumber} </span> :
+                <span style={{ "backgroundColor": "red", "fontWeight": "700" ,"padding":"10px" ,"color":"white"}}> {"INV- " + el.invoiceNumber} </span>,
                 accName: el.accountName,
                 proName: <span style={{ "whiteSpace": "break-spaces" }}>{el.productDetails.map((obj, index) => {
                     return <><Row>
@@ -50,10 +89,22 @@ class AllInvoices extends Component {
                     </Row></>
                 })}</span>,
 
-                tot: <><span style={{"float":"left","marginLeft":"30px"}}>LKR : </span><span style={{ "float": "right", "marginRight": "30px" }}>{(Number(el.totalAmount).toLocaleString('en-US'))}</span></>,
-                status: <span style={{"marginLeft":"40px"}}>{el.invoiceStatus  == 'Y' ? <FcOk /> : <FcCancel />}</span>,
-                remark:<FaEdit onClick={() => this.editAccountBtn(el._id)} />
-
+                tot: <><span style={{ "float": "left", "marginLeft": "30px" }}>LKR : </span><span style={{ "float": "right", "marginRight": "30px" }}>{(Number(el.totalAmount).toLocaleString('en-US'))}</span></>,
+                status: <span style={{ "marginLeft": "40px" }}>{el.invoiceStatus == 'Y' ? <FcOk /> : <FcCancel />}</span>,
+                remark: (
+                    <select
+                    value={el.invoiceStatus}
+                      onChange={(e) => this.handleRemarkToggle(el, e.target.value)}
+                    >
+                      <option value="Y" >
+                        Paid
+                      </option>
+                      <option value="N" >
+                        Unpaid
+                      </option>
+                    </select>
+                  )
+                ,
 
 
             })

@@ -1,12 +1,12 @@
-const Invoice = require('../Models/invoiceModel');
+const PayReminder = require('../Models/payReminderModel');
 
 
 
 
 //adding account details
-const addInvoice = async (req,res) => {
+const addPayReminder = async (req,res) => {
     
-    let newData = new Invoice(req.body);
+    let newData = new PayReminder(req.body);
 
    
 //    const { ProductName ,Address , EmailAddress , PhoneNumber ,UserName } = req.body;
@@ -41,12 +41,12 @@ const addInvoice = async (req,res) => {
 
 
 
-//get all invoice details
-const getallInvoiceDetails =  async (req,res) => {
+//get all PayReminder details
+const getallPayReminderDetails =  async (req,res) => {
     try{
-        const InvoiceData = await Invoice.find().sort({"createdAt":-1});
+        const PayReminderData = await PayReminder.find().sort({"createdAt":-1});
         return res.status(200).send({
-            data:InvoiceData,
+            data:PayReminderData,
             status:2100
         });
 
@@ -60,12 +60,12 @@ const getallInvoiceDetails =  async (req,res) => {
 }
 
 
-// //get all invoice details
-// const getallInvoiceDetails =  async (req,res) => {
+// //get all PayReminder details
+// const getallPayReminderDetails =  async (req,res) => {
 //     try{
-//         const InvoiceData = await Invoice.find();
+//         const PayReminderData = await PayReminder.find();
 //         return res.status(200).send({
-//             data:InvoiceData,
+//             data:PayReminderData,
 //             status:2100
 //         });
 
@@ -79,12 +79,12 @@ const getallInvoiceDetails =  async (req,res) => {
 // }
 
 //update details
-const updateInvoiceDetails =  async (req,res) => {
+const updatePayReminderDetails =  async (req,res) => {
     try{
 
         
         const id = req.params.id;
-        Invoice.findByIdAndUpdate(id,{
+        PayReminder.findByIdAndUpdate(id,{
             $set : req.body
         },(err) => {
             if(err){
@@ -111,10 +111,10 @@ const updateInvoiceDetails =  async (req,res) => {
 }
 
 //delete Account
-const deleteInvoiceByID = async (req, res) => {
+const deletePayReminderByID = async (req, res) => {
     try{
 
-        Invoice.findByIdAndRemove(req.params.id).exec((err, deletedAccount) => {
+        PayReminder.findByIdAndRemove(req.params.id).exec((err, deletedAccount) => {
 
       
             if (err) {
@@ -139,12 +139,12 @@ const deleteInvoiceByID = async (req, res) => {
 };
 
 
-const getInvoiceByAccName = async (req, res) => {
+const getPayReminderByInvoiceNo = async (req, res) => {
     try {
 
-        const { accountName } = req.body;
-        const data = await Invoice.find({ accountName: accountName });
-        if (data) {
+        const { invoiceNo } = req.body;
+        const data = await PayReminder.find({ invoiceNo: invoiceNo });
+        if (data.length > 0) {
 
             return res.status(200).json({
                 message: "data found", data,
@@ -153,25 +153,27 @@ const getInvoiceByAccName = async (req, res) => {
         }else{
             
             return res.status(200).json({
-                message: "No Data found", data
+                message: "No Data found", data,
+                status : 2200
             });
         }
 
     } catch(err) {
 
         return res.status(400).json({
-            message:err
+            message:err,
+            status : 2300
         });
     }
 }
 
 
 
-const getInvoiceListByAccId = async (req, res) => {
+const getPayReminderListByAccId = async (req, res) => {
     try {
 
         const { accountId } = req.body;
-        const data = await Invoice.find({ "accountID": accountId }).sort({"createdAt":-1});
+        const data = await PayReminder.find({ "accountID": accountId }).sort({"createdAt":-1});
         if (data) {
 
             return res.status(200).json({
@@ -196,12 +198,12 @@ const getInvoiceListByAccId = async (req, res) => {
 }
 
 
-const getInvoiceByID =  async (req,res) => {
+const getPayReminderByID =  async (req,res) => {
     try{
         const id = req.params.id;
-        const invoiceData = await Invoice.findById(id);
+        const PayReminderData = await PayReminder.findById(id);
         return res.status(200).send({
-            data:invoiceData,
+            data:PayReminderData,
             status:2100
         });
 
@@ -218,13 +220,13 @@ const getInvoiceByID =  async (req,res) => {
 
 
 module.exports = {
-    addInvoice,
-    getallInvoiceDetails,
-    updateInvoiceDetails,
-    getInvoiceByAccName,
-    deleteInvoiceByID,
-    getInvoiceListByAccId,
-    getInvoiceByID
+    addPayReminder,
+    getallPayReminderDetails,
+    updatePayReminderDetails,
+    getPayReminderByInvoiceNo,
+    deletePayReminderByID,
+    getPayReminderListByAccId,
+    getPayReminderByID
 
    
    

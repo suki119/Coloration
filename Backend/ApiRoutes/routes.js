@@ -3,7 +3,7 @@ const router = express.Router();
 const upload = require("../helpers/fileHelper");
 
 const { addAcountDetails, getallAccountDetails, updateAccountDetails, deleteAccountDetails, getallAccountByID } = require('../Controller/accountController');
-const { addInvoice, getallInvoiceDetails, updateInvoiceDetails, getInvoiceByAccName , deleteInvoiceByID} = require('../Controller/invoiceController');
+const { addInvoice, getallInvoiceDetails, updateInvoiceDetails, getInvoiceByAccName , deleteInvoiceByID , getInvoiceListByAccId ,getInvoiceByID} = require('../Controller/invoiceController');
 const { addQuotation, getQuotationByAccName, updateQuotationDetails , deleteQuotationByID, getallQuotationDetails} = require('../Controller/quotationController');
 const { addAdvance, getallAdvanceDetails, updateAdvanceDetails,getaAdvanceAmountByAccAndProd } = require('../Controller/advanceControlller');
 const { addDraftInvoiceData, getallDraftInvoiceDetails, updateDraftInvoiceDetails, getDraftInvoiceByAccAndPro  } = require('../Controller/draftInvoiceContoller');
@@ -15,11 +15,13 @@ const { addAdvanceTot , getaAdvanceTotAmountByAccAndProd , updateAdvanceTotDetai
 
 const { postInvoiceDetails , getInvoiceDetails } = require('../Controller/ReportController/invoiceReportControoller');
 const { postQuotationReportData , getQuotationReportDetails } = require('../Controller/ReportController/quotationaReportController');
+const { addPayReminder, getallPayReminderDetails, updatePayReminderDetails, getPayReminderByInvoiceNo, deletePayReminderByID, getPayReminderListByAccId ,getPayReminderByID } = require('../Controller/payReminderController');
 
 //Report
 //Invoice
 router.post('/Reports/Invoice/postInvoiceDetails',postInvoiceDetails);
 router.get('/Reports/Invoice/getInvoiceDetails',getInvoiceDetails);
+
 
 //Quotation
 router.post('/Reports/Quotation/postQuotationReportData',postQuotationReportData);
@@ -51,6 +53,9 @@ router.get('/Invoice/getAllInvoice', getallInvoiceDetails);
 router.put('/Invoice/update/:id', updateInvoiceDetails);
 router.post('/Invoice/getInvoiceByAccName', getInvoiceByAccName);
 router.delete('/Invoice/deleteInvoiceByID/:id', deleteInvoiceByID);
+router.post('/Invoice/getInvoiceListByAccId',getInvoiceListByAccId);
+router.put('/Invoice/updateInvoiceByID/:id', updateInvoiceDetails);
+router.get('/Invoice/getInvoiceByID/:id', getInvoiceByID);
 
 
 //Quotation detail api post
@@ -104,6 +109,15 @@ router.post('/Recipt/post', addreciptDetails);
 router.get('/Recipt/get', getallReciptDetails);
 // router.put('/jobCard/update/:id', updateJobDetails);
 // router.delete('/jobCard/delete/:id', deleteJobCardDetails);
+
+
+//PayReminder detail api post
+router.post('/payReminder/addPayReminder', addPayReminder);
+router.post('/payReminder/getPayReminderByInvoiceNo', getPayReminderByInvoiceNo);
+// router.get('/bagage/get', getallBagageDetails);
+ router.put('/payReminder/updatePayReminderDetails/:id', updatePayReminderDetails);
+// router.delete('/bagage/delete/:id', deleteBagageDetails);
+// router.post('/bagage/findByComAndAcc', getBaggageByAcoNameAndCompanyName);
 
 
 module.exports = router;
