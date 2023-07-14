@@ -6,7 +6,7 @@ import { Form, Button, Table, Row, Col, Container } from "react-bootstrap";
 import axios from 'axios';
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import ScrollableFeed from 'react-scrollable-feed';
+
 import validator from 'validator'
 import TableScrollbar from 'react-table-scrollbar';
 import { MDBDataTable } from 'mdbreact';

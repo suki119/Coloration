@@ -5,7 +5,7 @@ import AccountCSS from './mail.module.css';
 import { Form, Button, Table, Row, Col, Container } from "react-bootstrap";
 import axios, { Axios } from 'axios';
 import { FaEdit } from "react-icons/fa";
-import ScrollableFeed from 'react-scrollable-feed';
+
 import validator from 'validator'
 import TableScrollbar from 'react-table-scrollbar';
 import { MDBDataTable } from 'mdbreact';

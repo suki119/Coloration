@@ -7,7 +7,7 @@ import axios, { Axios } from 'axios';
 import { FaEdit } from "react-icons/fa";
 import { BsWallet2 } from "react-icons/bs";
 import { FcCheckmark, FcCancel, FcOk, FcInspection, FcOvertime, FcProcess, FcPicture } from "react-icons/fc";
-import ScrollableFeed from 'react-scrollable-feed';
+
 import validator from 'validator'
 import TableScrollbar from 'react-table-scrollbar';
 import { MDBDataTable } from 'mdbreact';
