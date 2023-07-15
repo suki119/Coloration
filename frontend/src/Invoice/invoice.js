@@ -171,7 +171,7 @@ class invoice extends Component {
         this.setState({ loader: true });
         axios.post(appURLs.web + webAPI.addDraftInvoiceData, invoiceObject).then((res) => {
             if (res.data.status === 2100) {
-               
+
                 Swal.fire({
                     position: 'top-end',
                     icon: 'success',
@@ -239,19 +239,14 @@ class invoice extends Component {
         })
 
         axios.post(appURLs.web + webAPI.postInvoiceDetails, { "InvoiceData": data, "AccountData": this.state.selectedAccountData })
-            .then(() => axios.get(appURLs.web + webAPI.getInvoiceDetails, { responseType: 'blob' }))
-            .then((res) => {
-
-                const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
-
-                if (pdfBlob) {
-                    this.setState({
-                        loader: false
-                    })
-                }
+            .then((response) => {
+                // Assuming the response data is the PDF file
+                console.log("res",response)
+                const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
                 saveAs(pdfBlob, "INVOICE - " + data.invoiceNumber + " " + data.productDetails[0].productName);
-
-            }).catch((error) => {
+                this.setState({ loader: false });
+            })
+            .catch((error) => {
                 console.error('Error', error);
                 this.setState({ loader: false });
                 Swal.fire({
@@ -260,10 +255,9 @@ class invoice extends Component {
                     title: 'Network Error in PDF Creating',
                     showConfirmButton: false,
                     timer: 1500
-                })
+                });
+            });
 
-
-            })
 
 
     }
@@ -272,7 +266,7 @@ class invoice extends Component {
 
         if (this.state.companyEmailAddress !== '') {
 
-          
+
 
             const emailobject = {
 
@@ -283,8 +277,8 @@ class invoice extends Component {
                 "date": invoiceObject.date,
                 "inSubTot": (Number(invoiceObject.subTotal)).toLocaleString('en-US'),
                 "inAdavance": invoiceObject.advance !== 0 ? (Number(invoiceObject.advance)).toLocaleString('en-US') : "0",
-                "inDiscount": String(invoiceObject.discount)+"%",
-                "inTotalAmount": "LKR: "+(Number(invoiceObject.totalAmount)).toLocaleString('en-US'),
+                "inDiscount": String(invoiceObject.discount) + "%",
+                "inTotalAmount": "LKR: " + (Number(invoiceObject.totalAmount)).toLocaleString('en-US'),
             }
 
             let wording = '';
@@ -292,14 +286,14 @@ class invoice extends Component {
 
             invoiceObject.productDetails.map((obj, index) => (
 
-              
 
-                wording = (index + 1 +". "+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + obj.productName   +'\xa0\xa0'+'\xa0\xa0\xa0\xa0' + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' +
-                    (Number(obj.productamount)).toLocaleString('en-US')  +'\xa0\xa0\xa0\xa0\xa0\xa0\xa0' +'\xa0\xa0\xa0\xa0\xa0\xa0\xa0' +'\xa0\xa0\xa0' +
-                    (Number(obj.productqty)).toLocaleString('en-US') + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' +'\xa0\xa0\xa0\xa0\xa0\xa0\xa0' +
-                    String(obj.productDiscount)+"%" + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' +'\xa0\xa0\xa0\xa0\xa0\xa0\xa0'  +
-                    "LKR. "+(Number(obj.producttotalamount)).toLocaleString('en-US')+'\xa0\xa0\xa0\xa0\xa0\xa0\xa0' +'\xa0\xa0\xa0\xa0\xa0\xa0\xa0' +'\xa0\xa0\xa0\xa0' + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0'+'\xa0\xa0\xa0\xa0'+
-                    (obj.productOtherDes !== '' ? "Discription - "+obj.productOtherDes : "-")) ,
+
+                wording = (index + 1 + ". " + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + obj.productName + '\xa0\xa0' + '\xa0\xa0\xa0\xa0' + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' +
+                    (Number(obj.productamount)).toLocaleString('en-US') + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + '\xa0\xa0\xa0' +
+                    (Number(obj.productqty)).toLocaleString('en-US') + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' +
+                    String(obj.productDiscount) + "%" + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' +
+                    "LKR. " + (Number(obj.producttotalamount)).toLocaleString('en-US') + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + '\xa0\xa0\xa0\xa0' + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + '\xa0\xa0\xa0\xa0' +
+                    (obj.productOtherDes !== '' ? "Discription - " + obj.productOtherDes : "-")),
                 productStringDataArrey.push(wording)
 
             )
@@ -313,12 +307,12 @@ class invoice extends Component {
             emailobject.productStringline4 = productStringDataArrey[3] !== null ? productStringDataArrey[3] : " - ";
             emailobject.productStringline5 = productStringDataArrey[4] !== null ? productStringDataArrey[4] : " - ";
 
-           
 
-            this.setState({loader:true});
+
+            this.setState({ loader: true });
             emailjs.send(EmailCredentials.SERVICE, EmailCredentials.TEMPLATE, emailobject, EmailCredentials.PUBLIC_KEY).then(res => {
-                if(res.status === 200){
-                    this.setState({loader:false});
+                if (res.status === 200) {
+                    this.setState({ loader: false });
                 }
 
             }).catch((error) => {
@@ -372,7 +366,7 @@ class invoice extends Component {
         axios.post(appURLs.web + webAPI.addInvoiceData, invoiceObject).then((res) => {
             if (res.data.status === 2100) {
 
-               
+
                 adavanceObjectList.map(object => {
 
 
@@ -413,11 +407,11 @@ class invoice extends Component {
 
 
                 this.onPdfSave(res.data.newData);
-                this.onMailSend(invoiceObject);
+                //this.onMailSend(invoiceObject);
 
 
 
-              
+
                 this.setState({
                     loader: false,
                     selectedOptions: [],
@@ -608,21 +602,21 @@ class invoice extends Component {
 
 
             }, () => {
-               
+
                 let advanceAmountAvb = this.state.adavanceObjectList.find(i => i.productID === selectedObject.productID);
-               
+
 
                 let question = this.state.productObjectArrey.find(i => i.productName === selectedObject.productName);
 
                 if (question == undefined && advanceAmountAvb != undefined) {
 
                     let objectIndex = this.state.adavanceObjectList.findIndex(i => i.productID === selectedObject.productID);
-                  
+
                     var objectList = [...this.state.adavanceObjectList];
 
                     objectList.splice(Number(objectIndex), 1);
 
-                   
+
                     this.setState({
                         adavanceObjectList: objectList
                     }, () => {
@@ -654,7 +648,7 @@ class invoice extends Component {
             let joinedNumber = number.join('');
 
 
-         
+
 
             if (Number(productDiscount) === 0) {
 
@@ -662,7 +656,7 @@ class invoice extends Component {
 
 
             } else {
-             
+
                 amount = (productQTY * Number(joinedNumber));
                 let discountAmount = (amount * Number(productDiscount)) / 100;
                 finalAmount = amount - discountAmount;
@@ -704,7 +698,7 @@ class invoice extends Component {
 
         let totNumbber = 0
 
-      
+
 
         if (this.state.adavanceObjectList[0] !== null) {
 
@@ -834,7 +828,7 @@ class invoice extends Component {
                     productDiscount: 0,
                     productAmount: "0",
                     selectedProductOptions: [],
-                    otherProductDes:''
+                    otherProductDes: ''
 
                 })
             })
@@ -865,7 +859,7 @@ class invoice extends Component {
 
 
     changeProductDiscount = (event) => {
-     
+
 
 
 
@@ -922,7 +916,7 @@ class invoice extends Component {
 
         if (productObjectArrey.length !== 0) {
 
-         
+
 
             productObjectArrey.map(obj => {
 
@@ -930,7 +924,7 @@ class invoice extends Component {
 
             })
 
-          
+
 
 
         }
@@ -969,7 +963,7 @@ class invoice extends Component {
 
                 }, () => {
                     // this.calculateAdvanceAmount()
-                   
+
                 })
 
             }
@@ -1081,7 +1075,7 @@ class invoice extends Component {
         this.setState({ loader: true });
         axios.post(appURLs.web + webAPI.getAllProductsByAccountID, { 'accountID': this.state.selectedOptions.value }).then((res) => {
             if (res.data.status === 2100 && res.data.data.length != 0) {
-                
+
 
                 this.setState({
                     allProducts: res.data.data,
@@ -1134,7 +1128,7 @@ class invoice extends Component {
 
 
     changCompanyName = (selectedOptions) => {
-      
+
         this.setState({
 
             productQTY: 1,
@@ -1168,7 +1162,7 @@ class invoice extends Component {
         }, () => {
             this.getAccountByID();
             this.getAllProductsByAccountID();
-           
+
         });
     }
 
@@ -1184,7 +1178,7 @@ class invoice extends Component {
         MyDateString = ('0' + MyDate.getDate()).slice(-2) + '/'
             + ('0' + (MyDate.getMonth() + 1)).slice(-2) + '/'
             + MyDate.getFullYear();
-       
+
         this.setState({
             datetoday: MyDateString
         })
@@ -1195,7 +1189,7 @@ class invoice extends Component {
     dateHandle = (e) => {
         let date = e.target.value;
         if (date == "") {
-      
+
         }
 
     }
@@ -1213,11 +1207,11 @@ class invoice extends Component {
 
     getAccountByID() {
 
-       
+
         this.setState({ loader: true })
         axios.get(appURLs.web + webAPI.getAccountById + this.state.selectedOptions.value).then((res) => {
 
-            
+
             if (res.data.data) {
                 const addresArrey = res.data.data.CompanyAddress;
                 const newArrey = addresArrey.split(", ");
@@ -1261,7 +1255,7 @@ class invoice extends Component {
     invoiceNumberCreation() {
 
         const { allInvoice } = this.state;
-      
+
         const lastObject = allInvoice[0]
         if (lastObject) {
             let invoiceNumber = Number(lastObject.invoiceNumber) + 1;
@@ -1334,9 +1328,9 @@ class invoice extends Component {
 
     //                 })
     //               }, 2000)
-              
-                
-                
+
+
+
     //             )
 
     //     })
