@@ -21,6 +21,7 @@ const getQuotationReportDetails = async (req, res) => {
     //res.sendFile(`/Colouration_Yashoda/Coloration/Backend/invoice.pdf`)
     // res.sendFile(`/Coloration_Software/Coloration-main/Coloration/Backend/invoice.pdf`)
     const path = process.cwd() + '/invoice.pdf';
+    console.log("path",path)
     res.sendFile(path);
 }
 
