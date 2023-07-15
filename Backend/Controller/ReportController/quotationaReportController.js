@@ -1,11 +1,12 @@
 const QUOTATION_TEMPLATE = require("../../Reports/QuotationaReports");
 const PDF = require('html-pdf');
 const path = require('path');
+const savePath = process.cwd() + '/invoice.pdf'; 
 
 
 const postQuotationReportData = async (req, res) => {
 
-    PDF.create(QUOTATION_TEMPLATE(req.body), {}).toFile('invoice.pdf', (err) => {
+    PDF.create(QUOTATION_TEMPLATE(req.body), {}).toFile(savePath, (err) => {
         if (err) {
             res.send(Promise.reject());
         }
