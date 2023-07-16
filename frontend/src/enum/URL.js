@@ -1,5 +1,5 @@
 export let appURLs = {
- // web: 'http://localhost:8000/',
+  //web: 'http://localhost:8000/',
   web: 'https://coloration.onrender.com/'
 }
 
