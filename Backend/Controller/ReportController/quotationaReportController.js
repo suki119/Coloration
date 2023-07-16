@@ -64,22 +64,16 @@ const postQuotationReportData = async (req, res) => {
 
 
 
+const getQuotationReportDetails = async (req, res) => {
 
- const getQuotationReportDetails = async (req, res) => {
+    const pathpdf =  path.join(process.cwd(), 'invoice.pdf');
 
-    const pathpdf = path.join(process.cwd(), 'invoice.pdf');
-
-    return res.status(200).json({
-        status:'2100',
-        message:"data added succsesfull",
-        name:pathpdf
-    });
-
-    // if (!res.headersSent) {
-    //     res.sendFile(pathpdf);
-    // } else {
-    //     console.log('The response headers have already been sent.');
-    // }
+    if (!res.headersSent) {
+        res.sendFile(pathpdf);
+        return;
+    } else {
+        console.log('The response headers have already been sent.');
+    }
 }
 
 module.exports = {
