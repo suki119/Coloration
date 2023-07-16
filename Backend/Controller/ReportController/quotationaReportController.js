@@ -4,17 +4,17 @@ const path = require('path');
 const savePath = path.join(process.cwd(), 'invoice.pdf');
 
 
-const postQuotationReportData = async (req, res) => {
+// const postQuotationReportData = async (req, res) => {
 
-    PDF.create(QUOTATION_TEMPLATE(req.body), {}).toFile(savePath, (err) => {
-        if (err) {
-            res.send(Promise.reject());
-        }
-        res.send(Promise.resolve());
-    })
+//     PDF.create(QUOTATION_TEMPLATE(req.body), {}).toFile(savePath, (err) => {
+//         if (err) {
+//             res.send(Promise.reject());
+//         }
+//         res.send(Promise.resolve());
+//     })
 
 
-}
+// }
 
 // const postQuotationReportData = async (req, res) => {
 //     // Assuming PDF is a module or library used to create PDF files
@@ -39,6 +39,28 @@ const postQuotationReportData = async (req, res) => {
 //         return res.status(500).json({ error: "Failed to generate the PDF." });
 //     }
 // };
+
+const postQuotationReportData = async (req, res) => {
+    try {
+        const pdfBuffer = await new Promise((resolve, reject) => {
+            PDF.create(QUOTATION_TEMPLATE(req.body), {}).toBuffer((err, buffer) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(buffer);
+                }
+            });
+        });
+
+        // Now you have the PDF byte array in the 'pdfBuffer' variable.
+        // You can do whatever you want with it (e.g., save it to a file, send it as a response, etc.).
+        // For example, if you want to send it as a response, you can do:
+        res.setHeader('Content-Type', 'application/pdf');
+        res.send(pdfBuffer);
+    } catch (err) {
+        res.status(500).send("Error creating PDF: " + err.message);
+    }
+};
 
 
 
