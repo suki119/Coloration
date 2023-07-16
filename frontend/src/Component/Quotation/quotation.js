@@ -296,7 +296,7 @@ class quotation extends Component {
                                 loader: false
                             })
                         }
-                        saveAs(pdfBlob, "QUOTATION - " + data.quotationNumber + " " + data.productDetails[0].productName);
+                        saveAs(pdfBlob, "QUOTATION - " + data.quotationaNumber + " " + data.productDetails[0].productName);
         
 
                     }).catch((error) => {
