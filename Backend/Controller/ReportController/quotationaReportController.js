@@ -4,38 +4,38 @@ const path = require('path');
 const savePath = path.join(__dirname, 'invoice.pdf');
 
 
-// const postQuotationReportData = async (req, res) => {
-
-//     PDF.create(QUOTATION_TEMPLATE(req.body), {}).toFile(savePath, (err) => {
-//         if (err) {
-//             res.send(Promise.reject());
-//         }
-//         res.send(Promise.resolve());
-//     })
-
-
-// }
-
 const postQuotationReportData = async (req, res) => {
-    // const { text } = req.body;
-    // const pdfBuffer = await PDF.create(QUOTATION_TEMPLATE(req.body), {}).toBuffer();
-    // return res.send(pdfBuffer);
 
     PDF.create(QUOTATION_TEMPLATE(req.body), {}).toFile(savePath, (err) => {
-                if (err) {
+        if (err) {
+            res.send(Promise.reject());
+        }
+        res.send(Promise.resolve());
+    })
 
-                }
-            })
 
-    const workingDirectory = __dirname;
+}
 
-    console.log("The working directory is: " + workingDirectory);
-    return res.status(200).json({
-        status:'2100',
-        message:savePath,
-        name:workingDirectory
-    });
-};
+// const postQuotationReportData = async (req, res) => {
+//     // const { text } = req.body;
+//     // const pdfBuffer = await PDF.create(QUOTATION_TEMPLATE(req.body), {}).toBuffer();
+//     // return res.send(pdfBuffer);
+
+//     PDF.create(QUOTATION_TEMPLATE(req.body), {}).toFile(savePath, (err) => {
+//                 if (err) {
+
+//                 }
+//             })
+
+//     const workingDirectory = __dirname;
+
+//     console.log("The working directory is: " + workingDirectory);
+//     return res.status(200).json({
+//         status:'2100',
+//         message:savePath,
+//         name:workingDirectory
+//     });
+// };
 
 // const postQuotationReportData = async (req, res) => {
 //     // Assuming PDF is a module or library used to create PDF files
