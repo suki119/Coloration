@@ -86,11 +86,12 @@ const postQuotationReportData = async (req, res) => {
 
 const getQuotationReportDetails = async (req, res) => {
 
-    const pathpdf = path.join(__dirname, 'invoice.pdf');
+    const pathpdf = await path.join(__dirname, 'invoice.pdf');
 
     if (!res.headersSent) {
+        res.setHeader('Content-Type', 'application/pdf');
         res.sendFile(pathpdf);
-        next();
+        return;
     } else {
         console.log('The response headers have already been sent.');
     }
