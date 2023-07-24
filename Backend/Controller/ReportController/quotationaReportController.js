@@ -4,17 +4,30 @@ const path = require('path');
 const savePath = path.join(process.cwd(), 'invoice.pdf');
 
 
+// const postQuotationReportData = async (req, res) => {
+
+//     PDF.create(QUOTATION_TEMPLATE(req.body), {}).toFile(savePath, (err) => {
+//         if (err) {
+//             res.send(Promise.reject());
+//         }
+//         res.send(Promise.resolve());
+//     })
+
+
+// }
+
 const postQuotationReportData = async (req, res) => {
-
-    PDF.create(QUOTATION_TEMPLATE(req.body), {}).toFile(savePath, (err) => {
-        if (err) {
-            res.send(Promise.reject());
+    const { text } = req.body;
+    PDF.create(QUOTATION_TEMPLATE(req.body), {}).toFile('result.pdf', (err, result) => {
+        if(err) {
+          return res.status(400).send(err);
         }
-        res.send(Promise.resolve());
-    })
-
-
-}
+        return res.json({
+          text: text,
+          result: result // this contains the pdf file that is generated.
+        });
+      });
+    };
 
 // const postQuotationReportData = async (req, res) => {
 //     // Assuming PDF is a module or library used to create PDF files
