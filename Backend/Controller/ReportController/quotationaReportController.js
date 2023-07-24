@@ -89,19 +89,19 @@ const getQuotationReportDetails = async (req, res) => {
 
     const pathpdf = path.join(__dirname, 'invoice.pdf');
 
-    if (!res.headersSent) {
-        res.setHeader('Content-Type', 'application/pdf');
-    }
 
     const data = fs.readFileSync(pathpdf);
 
     try {
-        return res.status(200).json({
-            status:'2100',
-            message:"data added succsesfull",
-            data: data
-        });
-      
+        if(data){
+            return res.status(200).json({
+                status:'2100',
+                message:"data added succsesfull",
+                data: data
+            });
+          
+        }
+       
     } catch (err) {
         res.status(500).send(err.message);
     }
