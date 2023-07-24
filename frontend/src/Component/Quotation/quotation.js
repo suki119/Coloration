@@ -300,8 +300,10 @@ class quotation extends Component {
 
 
 
-                    axios.get(appURLs.web + webAPI.getQuotationReportDetails,{responseType : "blob"}).then((res) =>{
-                        const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+                    axios.get(appURLs.web + webAPI.getQuotationReportDetails).then((res) =>{
+                        console.log("pdf",res.data.data.data)
+                        const pdfData = new Uint8Array(res.data.data.data);
+                        const pdfBlob = new Blob([pdfData], { type: 'application/pdf' });
 
                         if (pdfBlob) {
                             this.setState({

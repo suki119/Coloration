@@ -93,11 +93,13 @@ const getQuotationReportDetails = async (req, res) => {
         res.setHeader('Content-Type', 'application/pdf');
     }
 
+    const data = fs.readFileSync(pathpdf);
+
     try {
         return res.status(200).json({
             status:'2100',
             message:"data added succsesfull",
-            data: await fs.readFile(pathpdf)
+            data: data
         });
       
     } catch (err) {
