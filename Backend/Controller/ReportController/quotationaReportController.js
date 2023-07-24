@@ -2,6 +2,7 @@ const QUOTATION_TEMPLATE = require("../../Reports/QuotationaReports");
 const PDF = require('html-pdf');
 const path = require('path');
 const savePath = path.join(__dirname, 'invoice.pdf');
+const fs = require('fs');
 
 
 const postQuotationReportData = async (req, res) => {
@@ -92,9 +93,16 @@ const getQuotationReportDetails = async (req, res) => {
         res.setHeader('Content-Type', 'application/pdf');
     }
 
-    res.json({
-        data: await fs.readFile(pathpdf)
-    });
+    try {
+        return res.status(200).json({
+            status:'2100',
+            message:"data added succsesfull",
+            data: await fs.readFile(pathpdf)
+        });
+      
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
 }
 
 module.exports = {
