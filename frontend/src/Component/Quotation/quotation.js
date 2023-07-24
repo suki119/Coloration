@@ -283,12 +283,12 @@ class quotation extends Component {
             AccountData: this.state.selectedAccountData,
         };
 
-        axios.post(appURLs.web + webAPI.postQuotationReportData, postData)
+        axios.post(appURLs.web + webAPI.postQuotationReportData, postData,{ responseType: 'blob' })
             .then((res) => {
 
                 if (res.status === 200) {
-
-                    // console.log("resss", res.data)
+                    this.downloadPdf(res.data, data);
+                    console.log("resss", res.data)
                     // const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
 
                     // if (pdfBlob) {
@@ -300,30 +300,30 @@ class quotation extends Component {
 
 
 
-                    axios.get(appURLs.web + webAPI.getQuotationReportDetails).then((res) =>{
-                        console.log("pdf",res.data.data.data)
-                        const pdfData = new Uint8Array(res.data.data.data);
-                        const pdfBlob = new Blob([pdfData], { type: 'application/pdf' });
+                    // axios.get(appURLs.web + webAPI.getQuotationReportDetails).then((res) =>{
+                    //     console.log("pdf",res.data.data.data)
+                    //     const pdfData = new Uint8Array(res.data.data.data);
+                    //     const pdfBlob = new Blob([pdfData], { type: 'application/pdf' });
 
-                        if (pdfBlob) {
-                            this.setState({
-                                loader: false
-                            })
-                        }
-                        saveAs(pdfBlob, "QUOTATION - " + data.quotationaNumber + " " + data.productDetails[0].productName);
+                    //     if (pdfBlob) {
+                    //         this.setState({
+                    //             loader: false
+                    //         })
+                    //     }
+                    //     saveAs(pdfBlob, "QUOTATION - " + data.quotationaNumber + " " + data.productDetails[0].productName);
 
 
-                    }).catch((error) => {
-                        console.error('Error', error);
-                        this.setState({ loader: false });
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: 'Network Error in PDF Creating',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                    })
+                    // }).catch((error) => {
+                    //     console.error('Error', error);
+                    //     this.setState({ loader: false });
+                    //     Swal.fire({
+                    //         position: 'top-end',
+                    //         icon: 'error',
+                    //         title: 'Network Error in PDF Creating',
+                    //         showConfirmButton: false,
+                    //         timer: 1500
+                    //     })
+                    // })
 
                 }
 
@@ -352,6 +352,11 @@ class quotation extends Component {
             });
 
     }
+
+    downloadPdf = (pdfBuffer, data) => {
+        const pdfBlob = new Blob([pdfBuffer], { type: 'application/pdf' });
+        saveAs(pdfBlob, `QUOTATION - ${data.quotationaNumber} ${data.productDetails[0].productName}.pdf`);
+      };
 
     onMailSend(invoiceObject) {
 

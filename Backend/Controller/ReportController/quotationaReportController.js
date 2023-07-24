@@ -1,21 +1,21 @@
-const QUOTATION_TEMPLATE = require("../../Reports/QuotationaReports");
-const PDF = require('html-pdf');
-const path = require('path');
-const savePath = path.join(__dirname, 'invoice.pdf');
-const fs = require('fs');
+// const QUOTATION_TEMPLATE = require("../../Reports/QuotationaReports");
+// const PDF = require('html-pdf');
+// const path = require('path');
+// const savePath = path.join(__dirname, 'invoice.pdf');
+// const fs = require('fs');
 
 
-const postQuotationReportData = async (req, res) => {
+// const postQuotationReportData = async (req, res) => {
 
-    PDF.create(QUOTATION_TEMPLATE(req.body), {}).toFile(savePath, (err) => {
-        if (err) {
-            res.send(Promise.reject());
-        }
-        res.send(Promise.resolve());
-    })
+//     PDF.create(QUOTATION_TEMPLATE(req.body), {}).toFile(savePath, (err) => {
+//         if (err) {
+//             res.send(Promise.reject());
+//         }
+//         res.send(Promise.resolve());
+//     })
 
 
-}
+// }
 
 // const postQuotationReportData = async (req, res) => {
 //     // const { text } = req.body;
@@ -106,6 +106,38 @@ const getQuotationReportDetails = async (req, res) => {
         res.status(500).send(err.message);
     }
 }
+
+// module.exports = {
+//     postQuotationReportData,
+//     getQuotationReportDetails
+// }
+
+const QUOTATION_TEMPLATE = require("../../Reports/QuotationaReports");
+const PDF = require('html-pdf');
+const path = require('path');
+const fs = require('fs');
+
+const postQuotationReportData = async (req, res) => {
+    try {
+        const pdfBuffer = await new Promise((resolve, reject) => {
+            PDF.create(QUOTATION_TEMPLATE(req.body), {}).toBuffer((err, buffer) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(buffer);
+                }
+            });
+        });
+
+        // Now you have the PDF byte array in the 'pdfBuffer' variable.
+        // You can set the appropriate headers and send the PDF as a response.
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename="QUOTATION.pdf"`);
+        res.send(pdfBuffer);
+    } catch (err) {
+        res.status(500).send("Error creating PDF: " + err.message);
+    }
+};
 
 module.exports = {
     postQuotationReportData,
