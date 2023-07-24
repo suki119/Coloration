@@ -1,7 +1,7 @@
 const QUOTATION_TEMPLATE = require("../../Reports/QuotationaReports");
 const PDF = require('html-pdf');
 const path = require('path');
-const savePath = path.join(process.cwd(), 'invoice.pdf');
+const savePath = path.join(__dirname, 'invoice.pdf');
 
 
 // const postQuotationReportData = async (req, res) => {
@@ -15,17 +15,24 @@ const savePath = path.join(process.cwd(), 'invoice.pdf');
 
 
 // }
+
 const postQuotationReportData = async (req, res) => {
     // const { text } = req.body;
     // const pdfBuffer = await PDF.create(QUOTATION_TEMPLATE(req.body), {}).toBuffer();
     // return res.send(pdfBuffer);
+
+    PDF.create(QUOTATION_TEMPLATE(req.body), {}).toFile(savePath, (err) => {
+                if (err) {
+
+                }
+            })
 
     const workingDirectory = __dirname;
 
     console.log("The working directory is: " + workingDirectory);
     return res.status(200).json({
         status:'2100',
-        message:"data added succsesfull",
+        message:savePath,
         name:workingDirectory
     });
 };
@@ -79,7 +86,7 @@ const postQuotationReportData = async (req, res) => {
 
 const getQuotationReportDetails = async (req, res) => {
 
-    const pathpdf = path.join(process.cwd(), 'invoice.pdf');
+    const pathpdf = path.join(__dirname, 'invoice.pdf');
 
     if (!res.headersSent) {
         res.sendFile(pathpdf);
