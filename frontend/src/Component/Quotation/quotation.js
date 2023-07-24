@@ -288,40 +288,40 @@ class quotation extends Component {
 
                 if (res.status === 200) {
 
-                    console.log("resss", res.data)
-                    const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+                    // console.log("resss", res.data)
+                    // const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
 
-                    if (pdfBlob) {
-                        this.setState({
-                            loader: false
-                        })
-                    }
-                    saveAs(pdfBlob, "QUOTATION - " + data.quotationaNumber + " " + data.productDetails[0].productName);
-
-
-
-                    // axios.get(appURLs.web + webAPI.getQuotationReportDetails,{responseType : "blob"}).then((res) =>{
-                    //     const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
-
-                    //     if (pdfBlob) {
-                    //         this.setState({
-                    //             loader: false
-                    //         })
-                    //     }
-                    //     saveAs(pdfBlob, "QUOTATION - " + data.quotationaNumber + " " + data.productDetails[0].productName);
-
-
-                    // }).catch((error) => {
-                    //     console.error('Error', error);
-                    //     this.setState({ loader: false });
-                    //     Swal.fire({
-                    //         position: 'top-end',
-                    //         icon: 'error',
-                    //         title: 'Network Error in PDF Creating',
-                    //         showConfirmButton: false,
-                    //         timer: 1500
+                    // if (pdfBlob) {
+                    //     this.setState({
+                    //         loader: false
                     //     })
-                    // })
+                    // }
+                    // saveAs(pdfBlob, "QUOTATION - " + data.quotationaNumber + " " + data.productDetails[0].productName);
+
+
+
+                    axios.get(appURLs.web + webAPI.getQuotationReportDetails,{responseType : "blob"}).then((res) =>{
+                        const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+
+                        if (pdfBlob) {
+                            this.setState({
+                                loader: false
+                            })
+                        }
+                        saveAs(pdfBlob, "QUOTATION - " + data.quotationaNumber + " " + data.productDetails[0].productName);
+
+
+                    }).catch((error) => {
+                        console.error('Error', error);
+                        this.setState({ loader: false });
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: 'Network Error in PDF Creating',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    })
 
                 }
 
