@@ -15,19 +15,20 @@ const savePath = path.join(process.cwd(), 'invoice.pdf');
 
 
 // }
-
 const postQuotationReportData = async (req, res) => {
-    const { text } = req.body;
-    PDF.create(QUOTATION_TEMPLATE(req.body), {}).toFile('result.pdf', (err, result) => {
-        if(err) {
-          return res.status(400).send(err);
-        }
-        return res.json({
-          text: text,
-          result: result // this contains the pdf file that is generated.
-        });
-      });
-    };
+    // const { text } = req.body;
+    // const pdfBuffer = await PDF.create(QUOTATION_TEMPLATE(req.body), {}).toBuffer();
+    // return res.send(pdfBuffer);
+
+    const workingDirectory = __dirname;
+
+    console.log("The working directory is: " + workingDirectory);
+    return res.status(200).json({
+        status:'2100',
+        message:"data added succsesfull",
+        name:workingDirectory
+    });
+};
 
 // const postQuotationReportData = async (req, res) => {
 //     // Assuming PDF is a module or library used to create PDF files
@@ -78,7 +79,7 @@ const postQuotationReportData = async (req, res) => {
 
 const getQuotationReportDetails = async (req, res) => {
 
-    const pathpdf =  path.join(process.cwd(), 'invoice.pdf');
+    const pathpdf = path.join(process.cwd(), 'invoice.pdf');
 
     if (!res.headersSent) {
         res.sendFile(pathpdf);
