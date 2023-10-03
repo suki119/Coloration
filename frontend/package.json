@@ -26,7 +26,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.1",
     
-    "react-select": "^5.4.0",
+    "react-select": "^5.7.4",
     "react-simple-image-slider": "^2.4.1",
     "react-slideshow-image": "^4.0.3",
     "react-spinners": "^0.13.4",
